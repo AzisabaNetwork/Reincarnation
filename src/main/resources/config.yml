@@ -1,0 +1,4 @@
+database:
+  url: jdbc:mysql://localhost/reincarnation # Please set the appropriate URL.
+  user: # Please set the appropriate user.
+  pass: # Please set the appropriate pass.

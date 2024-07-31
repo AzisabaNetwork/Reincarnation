@@ -1,0 +1,10 @@
+name: Reincarnation
+version: '${version}'
+api-version: '1.17'
+description: Reincarnation's core system.
+main: net.azisaba.rc.Reincarnation
+
+commands:
+  rc:
+    description: Supports reincarnation processing.
+    usage: /rcquest <args…>
