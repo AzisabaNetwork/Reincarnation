@@ -7,4 +7,4 @@ main: net.azisaba.rc.Reincarnation
 commands:
   rc:
     description: Supports reincarnation processing.
-    usage: /rcquest <args…>
+    usage: /rc <skill> <args…>

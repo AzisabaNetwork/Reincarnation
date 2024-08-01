@@ -43,6 +43,6 @@ public abstract class AbstractTypingSkill extends RcCommandSkill
 
     public void onTyped(String string)
     {
-
+        AbstractTypingSkill.instances.remove(this);
     }
 }

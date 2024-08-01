@@ -28,6 +28,8 @@ public class AbstractPowerSkill extends AbstractTypingSkill
     @Override
     public void onTyped(String string)
     {
+        super.onTyped(string);
+
         if (string.equals(this.confirmCode))
         {
             this.onAllow();
