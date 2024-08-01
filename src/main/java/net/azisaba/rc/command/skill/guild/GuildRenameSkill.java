@@ -58,11 +58,13 @@ public class GuildRenameSkill extends AbstractTypingSkill
         if (12 < string.length())
         {
             this.player.sendMessage(Component.text("Guile 名は12文字以下にする必要があります。").color(NamedTextColor.RED));
+            return;
         }
 
         if (Guild.getInstances().stream().anyMatch(g -> g.getName().equals(string)))
         {
             this.player.sendMessage(Component.text("この Guile 名はすでに使用されています。").color(NamedTextColor.RED));
+            return;
         }
 
         this.guild.setName(string);

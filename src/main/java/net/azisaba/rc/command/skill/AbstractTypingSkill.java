@@ -16,7 +16,7 @@ public abstract class AbstractTypingSkill extends RcCommandSkill
         return filteredInstances.isEmpty() ? null : filteredInstances.get(0);
     }
 
-    protected Player player;
+    public Player player;
 
     public AbstractTypingSkill(String name)
     {
@@ -43,6 +43,6 @@ public abstract class AbstractTypingSkill extends RcCommandSkill
 
     public void onTyped(String string)
     {
-        AbstractTypingSkill.instances.remove(this);
+
     }
 }

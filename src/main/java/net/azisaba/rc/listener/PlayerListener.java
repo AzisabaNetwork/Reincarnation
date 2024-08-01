@@ -55,6 +55,7 @@ public class PlayerListener implements Listener
             if (skill != null)
             {
                 skill.onTyped(string);
+                skill.player = null;
             }
 
             player.removeScoreboardTag("rc.typing");
