@@ -1,13 +1,26 @@
-<p style="text-align: center;"><img src="material/unknown.png" width="64px"></p>
-<h1 style="text-align: center;">Reincarnation</h1>
-<p style="text-align: center;">Reincarnation Core System</p>
+<p align="center"><img src="material/unknown.png" width="64px"></p>
+<h1 align="center">Reincarnation</h1>
+<p align="center">Reincarnation Core System</p>
+
+**Note: This plugin is in development!!**
 
 ## Overview
 
-<p style="color: red;">This is a development version!</p>
 This is the core Paper plugin for Reincarnation.
 
 ```
-Version: 0.1.0
+Version: 0.2.0
 Minecraft Version: 1.17.1
+Database Server: MySQL 8.0
+```
+
+## Tables
+
+This plugin requires several tables to work.
+
+```sql
+CREATE TABLE user(id VARCHAR(36), name VARCHAR(16), role VARCHAR(16), guild VARCHAR(36), exp INT UNSIGNED, money INT UNSIGNED);
+CREATE TABLE guild(id VARCHAR(36), name VARCHAR(16), master VARCHAR(36), exp INT UNSIGNED);
+CREATE TABLE quest(id TEXT, user VARCHAR(36));
+CREATE TABLE friend(user1 VARCHAR(36), user2 VARCHAR(36));
 ```

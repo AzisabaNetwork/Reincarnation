@@ -53,7 +53,7 @@ public class QuestUnlockSkill extends RcCommandSkill
         User user = User.getInstance(player);
         QuestEngine quest = QuestEngine.getInstance(args[0]);
 
-        if (user.unlocked(quest))
+        if (user.isUnlocked(quest))
         {
             sender.sendMessage(Component.text("This player has already unlocked this quest.").color(NamedTextColor.RED));
             return true;

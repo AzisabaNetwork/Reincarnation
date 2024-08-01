@@ -1,6 +1,5 @@
 package net.azisaba.rc.ui.inventory.quest;
 
-import net.azisaba.rc.quest.Quest;
 import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.ui.inventory.InventoryUI;
 import net.azisaba.rc.user.User;
@@ -109,7 +108,7 @@ public abstract class QuestMenuUI extends InventoryUI
     {
         User user = User.getInstance(this.player);
         this.quests.clear();
-        this.quests.addAll(new ArrayList<>(quests.stream().filter(user::unlocked).toList()));
+        this.quests.addAll(new ArrayList<>(quests.stream().filter(user::isUnlocked).toList()));
     }
 
     public void rendering(int page)

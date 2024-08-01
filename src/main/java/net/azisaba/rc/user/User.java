@@ -2,7 +2,6 @@ package net.azisaba.rc.user;
 
 import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.guild.Guild;
-import net.azisaba.rc.quest.Quest;
 import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.util.UserUtil;
 import org.bukkit.entity.Player;
@@ -17,7 +16,7 @@ public class User
     public static User getInstance(String id)
     {
         ArrayList<User> filteredInstances = new ArrayList<>(User.instances.stream().filter(i -> i.getId().equals(id)).toList());
-        return filteredInstances.isEmpty() ? UserUtil.exits(id) ? new User(id) : new User(id, null, Rank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
+        return filteredInstances.isEmpty() ? UserUtil.exits(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
     }
 
     public static User getInstance(Player player)
@@ -28,12 +27,14 @@ public class User
     private final String id;
 
     private String name;
-    private Rank rank;
+    private UserRank rank;
     private Guild guild;
     private int exp;
     private int money;
 
-    private final ArrayList<QuestEngine> unlocks = new ArrayList<>();
+    private final ArrayList<User> friends = new ArrayList<>();
+    private final ArrayList<User> friendRequests = new ArrayList<>();
+    private final ArrayList<QuestEngine> quests = new ArrayList<>();
 
     private User(String id)
     {
@@ -49,7 +50,7 @@ public class User
             rs.next();
 
             this.name = rs.getString("name");
-            this.rank = Rank.valueOf(rs.getString("role"));
+            this.rank = UserRank.valueOf(rs.getString("role"));
             this.exp = rs.getInt("exp");
             this.money = rs.getInt("money");
 
@@ -62,7 +63,7 @@ public class User
 
             while (rs2.next())
             {
-                this.unlocks.add(QuestEngine.getInstance(rs2.getString("id")));
+                this.quests.add(QuestEngine.getInstance(rs2.getString("id")));
             }
 
             rs2.close();
@@ -78,7 +79,7 @@ public class User
         User.instances.add(this);
     }
 
-    private User(String id, String name, Rank rank, Guild guild, int exp, int money)
+    private User(String id, String name, UserRank rank, Guild guild, int exp, int money)
     {
         this.id = id;
         this.name = name;
@@ -126,12 +127,12 @@ public class User
         this.upload();
     }
 
-    public Rank getRank()
+    public UserRank getRank()
     {
-        return (this.rank == null) ? Rank.DEFAULT : this.rank;
+        return (this.rank == null) ? UserRank.DEFAULT : this.rank;
     }
 
-    public void setRank(Rank rank)
+    public void setRank(UserRank rank)
     {
         this.rank = rank;
         this.upload();
@@ -170,20 +171,57 @@ public class User
         this.upload();
     }
 
-    public void unlock(QuestEngine quest)
+    public ArrayList<User> getFriends()
     {
-        if (this.unlocked(quest))
+        return this.friends;
+    }
+
+    public void friend(User user)
+    {
+        if (this.isFriend(user))
         {
             return;
         }
 
-        this.unlocks.add(quest);
+        user.getFriendRequests().remove(this);
+        this.friendRequests.remove(user);
+
+        user.getFriends().add(this);
+        this.friends.add(user);
         this.upload();
     }
 
-    public boolean unlocked(QuestEngine quest)
+    public void unfriend(User user)
     {
-        return this.unlocks.contains(quest);
+        user.getFriends().remove(this);
+        this.friends.remove(user);
+        this.upload();
+    }
+
+    public boolean isFriend(User user)
+    {
+        return this.friends.contains(user);
+    }
+
+    public ArrayList<User> getFriendRequests()
+    {
+        return this.friendRequests;
+    }
+
+    public void unlock(QuestEngine quest)
+    {
+        if (this.isUnlocked(quest))
+        {
+            return;
+        }
+
+        this.quests.add(quest);
+        this.upload();
+    }
+
+    public boolean isUnlocked(QuestEngine quest)
+    {
+        return this.quests.contains(quest);
     }
 
     public void upload()
@@ -208,7 +246,7 @@ public class User
 
             PreparedStatement stmt3 = con.prepareStatement("INSERT INTO quest VALUES(?, ?)");
 
-            for (QuestEngine quest : this.unlocks)
+            for (QuestEngine quest : this.quests)
             {
                 stmt3.setString(1, quest.getId());
                 stmt3.setString(2, this.id);
@@ -216,6 +254,23 @@ public class User
             }
 
             stmt3.close();
+
+            PreparedStatement stmt4 = con.prepareStatement("DELETE FROM friend WHERE user1 = ? OR user2 = ?");
+            stmt4.setString(1, this.id);
+            stmt4.setString(2, this.id);
+            stmt4.executeUpdate();
+            stmt4.close();
+
+            PreparedStatement stmt5 = con.prepareStatement("INSERT INTO friend VALUES(?, ?)");
+
+            for (User friend : this.friends)
+            {
+                stmt5.setString(1, this.id);
+                stmt5.setString(2, friend.getId());
+                stmt5.executeUpdate();
+            }
+
+            stmt5.close();
 
             stmt.close();
             con.close();

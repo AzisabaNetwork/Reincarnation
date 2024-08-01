@@ -6,6 +6,9 @@ import net.azisaba.rc.command.skill.party.*;
 import net.azisaba.rc.command.skill.quest.QuestProgressionSkill;
 import net.azisaba.rc.command.skill.quest.QuestStartSkill;
 import net.azisaba.rc.command.skill.quest.QuestUnlockSkill;
+import net.azisaba.rc.command.skill.social.SocialFriendRequestSkill;
+import net.azisaba.rc.command.skill.social.SocialFriendSkill;
+import net.azisaba.rc.command.skill.social.SocialUnfriendSkill;
 import net.azisaba.rc.command.skill.ui.*;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -39,7 +42,12 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.skills.put("quest:progression", new QuestProgressionSkill());
         RcCommand.skills.put("quest:start", new QuestStartSkill());
         RcCommand.skills.put("quest:unlock", new QuestUnlockSkill());
+        RcCommand.skills.put("social:friend", new SocialFriendSkill());
+        RcCommand.skills.put("social:friend-request", new SocialFriendRequestSkill());
+        RcCommand.skills.put("social:unfriend", new SocialUnfriendSkill());
         RcCommand.skills.put("ui:close", new UICloseSkill());
+        RcCommand.skills.put("ui:friend", new UIFriendSkill());
+        RcCommand.skills.put("ui:friend-request", new UIFriendRequestSkill());
         RcCommand.skills.put("ui:party", new UIPartySkill());
         RcCommand.skills.put("ui:party-invite", new UIPartyInviteSkill());
         RcCommand.skills.put("ui:profile", new UIProfileSkill());
@@ -49,16 +57,13 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.skills.put("ui:quest-event", new UIQuestEventMenuSkill());
         RcCommand.skills.put("ui:quest-free", new UIQuestFreeMenuSkill());
         RcCommand.skills.put("ui:quest-story", new UIQuestStoryMenuSkill());
+        RcCommand.skills.put("ui:settings", new UISettingsSkill());
+        RcCommand.skills.put("ui:social-menu", new UISocialMenuSkill());
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
     {
-        if (sender instanceof Player)
-        {
-            User user = User.getInstance(((Player) sender).getUniqueId().toString());
-        }
-
         if (args.length == 0)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc <args…>").color(NamedTextColor.RED));

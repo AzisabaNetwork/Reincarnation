@@ -12,12 +12,12 @@ public class UserUtil
     {
         try
         {
-            Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("SELECT name FROM user WHERE id = ?");
+            final Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
+            final PreparedStatement stmt = con.prepareStatement("SELECT name FROM user WHERE id = ?");
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            boolean exits = rs.next();
+            final boolean exits = rs.next();
 
             rs.close();
             stmt.close();
@@ -35,9 +35,9 @@ public class UserUtil
     {
         try
         {
-            Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("SELECT id FROM user");
-            ResultSet rs = stmt.executeQuery();
+            final Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
+            final PreparedStatement stmt = con.prepareStatement("SELECT id FROM user");
+            final ResultSet rs = stmt.executeQuery();
 
             while (rs.next())
             {
@@ -46,6 +46,22 @@ public class UserUtil
 
             rs.close();
             stmt.close();
+
+            final PreparedStatement stmt2 = con.prepareStatement("SELECT * FROM friend");
+            final ResultSet rs2 = stmt2.executeQuery();
+
+            while (rs2.next())
+            {
+                final User user1 = User.getInstance(rs2.getString("user1"));
+                final User user2 = User.getInstance(rs2.getString("user2"));
+
+                user1.getFriends().add(user2);
+                user2.getFriends().add(user1);
+            }
+
+            rs2.close();
+            stmt2.close();
+
             con.close();
         }
         catch (SQLException e)

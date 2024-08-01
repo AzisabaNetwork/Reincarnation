@@ -6,7 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 
-public enum Rank
+public enum UserRank
 {
     OWNER(Component.text("OWNER").color(NamedTextColor.RED)),
     ADMIN(Component.text("ADMIN").color(NamedTextColor.RED)),
@@ -18,7 +18,7 @@ public enum Rank
 
     private final Component display;
 
-    Rank(Component display)
+    UserRank(Component display)
     {
         this.display = display;
     }
@@ -28,19 +28,24 @@ public enum Rank
         return this.display;
     }
 
-    public Component getRankedName(Player player)
+    public Component getRankedName(String name)
     {
         TextComponent textComponent = (TextComponent) this.display;
 
         if (textComponent.content().isBlank())
         {
-            return Component.text(player.getName()).color(NamedTextColor.GRAY);
+            return Component.text(name).color(NamedTextColor.GRAY);
         }
         else
         {
             TextColor theme = textComponent.color();
             TextComponent rank = Component.text("[").color(theme).append(this.display).append(Component.text("] ").color(theme));
-            return rank.append(Component.text(player.getName()));
+            return rank.append(Component.text(name));
         }
+    }
+
+    public Component getRankedName(Player player)
+    {
+        return this.getRankedName(player.getName());
     }
 }
