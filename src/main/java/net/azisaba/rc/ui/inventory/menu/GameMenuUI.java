@@ -63,7 +63,7 @@ public abstract class GameMenuUI extends InventoryUI
 
     public void addSeparator()
     {
-        ItemStack separatorStack = new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
+        ItemStack separatorStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta separatorMeta = separatorStack.getItemMeta();
         separatorMeta.displayName(Component.text(""));
         separatorStack.setItemMeta(separatorMeta);

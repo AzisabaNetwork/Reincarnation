@@ -51,6 +51,17 @@ public class SocialFriendSkill extends RcCommandSkill
             return true;
         }
 
+        if (user1.isFriend(user2))
+        {
+            sender.sendMessage(Component.text("You are already friends with this player.").color(NamedTextColor.RED));
+            return true;
+        }
+
+        if (user1 == user2)
+        {
+            player1.sendMessage(Component.text("自分自身に Friend 申請を送信することはできません。").color(NamedTextColor.RED));
+        }
+
         user1.friend(user2);
 
         player1.sendMessage(player2.displayName().append(Component.text(" と Friend になりました！").color(NamedTextColor.YELLOW)));

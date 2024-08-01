@@ -1,7 +1,7 @@
 package net.azisaba.rc.command;
 
 import net.azisaba.rc.command.skill.RcCommandSkill;
-import net.azisaba.rc.command.skill.guild.GuildCreateSkill;
+import net.azisaba.rc.command.skill.guild.*;
 import net.azisaba.rc.command.skill.party.*;
 import net.azisaba.rc.command.skill.quest.QuestProgressionSkill;
 import net.azisaba.rc.command.skill.quest.QuestStartSkill;
@@ -10,14 +10,12 @@ import net.azisaba.rc.command.skill.social.SocialFriendRequestSkill;
 import net.azisaba.rc.command.skill.social.SocialFriendSkill;
 import net.azisaba.rc.command.skill.social.SocialUnfriendSkill;
 import net.azisaba.rc.command.skill.ui.*;
-import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +29,12 @@ public class RcCommand implements CommandExecutor, TabCompleter
 
     public RcCommand()
     {
+        RcCommand.skills.put("guild:close", new GuildCloseSkill());
         RcCommand.skills.put("guild:create", new GuildCreateSkill());
+        RcCommand.skills.put("guild:invite", new GuildInviteSkill());
+        RcCommand.skills.put("guild:join", new GuildJoinSkill());
+        RcCommand.skills.put("guild:quit", new GuildQuitSkill());
+        RcCommand.skills.put("guild:rename", new GuildRenameSkill());
         RcCommand.skills.put("party:assignment", new PartyAssignmentSkill());
         RcCommand.skills.put("party:close", new PartyCloseSkill());
         RcCommand.skills.put("party:create", new PartyCreateSkill());
@@ -48,6 +51,9 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.skills.put("ui:close", new UICloseSkill());
         RcCommand.skills.put("ui:friend", new UIFriendSkill());
         RcCommand.skills.put("ui:friend-request", new UIFriendRequestSkill());
+        RcCommand.skills.put("ui:guild", new UIGuildSkill());
+        RcCommand.skills.put("ui:guild-invite", new UIGuildInviteSkill());
+        RcCommand.skills.put("ui:guild-member", new UIGuildMemberSkill());
         RcCommand.skills.put("ui:party", new UIPartySkill());
         RcCommand.skills.put("ui:party-invite", new UIPartyInviteSkill());
         RcCommand.skills.put("ui:profile", new UIProfileSkill());

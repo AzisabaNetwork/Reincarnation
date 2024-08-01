@@ -1,6 +1,9 @@
 package net.azisaba.rc.ui.inventory;
 
+import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.inventory.menu.GameMenuUI;
+import net.azisaba.rc.ui.inventory.menu.GuildUI;
+import net.azisaba.rc.ui.inventory.menu.ProfileUI;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -20,7 +23,13 @@ public class SocialMenuUI extends GameMenuUI
 
     public SocialMenuUI(Player player, OfflinePlayer view)
     {
-        super(player, User.getInstance(view.getUniqueId().toString()).getRank().getRankedName(view.getName()));
+        super(player, User.getInstance(view.getUniqueId().toString()).getRankedName());
+
+        if (player.getUniqueId().equals(view.getUniqueId()))
+        {
+            new ProfileUI(player);
+            return;
+        }
 
         this.addSeparator();
 
@@ -29,7 +38,7 @@ public class SocialMenuUI extends GameMenuUI
 
         ItemStack stack0 = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta0 = (SkullMeta) stack0.getItemMeta();
-        meta0.displayName(viewUser.getRank().getRankedName(view.getName()));
+        meta0.displayName(viewUser.getRankedName());
         meta0.setOwningPlayer(view);
         stack0.setItemMeta(meta0);
         this.inventory.setItem(0, stack0);
@@ -67,5 +76,15 @@ public class SocialMenuUI extends GameMenuUI
         meta31.displayName(Component.text(user.isFriend(viewUser) ? "フレンドを削除" : "フレンドを申請").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         stack31.setItemMeta(meta31);
         this.register(31, stack31, user.isFriend(viewUser) ? String.format("rc social:unfriend %s %s", player.getName(), view.getName()) : String.format("rc social:friend-request %s %s", player.getName(), view.getName()));
+
+        if (user.getGuild() != null)
+        {
+            Guild guild = user.getGuild();
+            ItemStack stack32 = new ItemStack(guild.isMember(viewUser) ? Material.BARRIER : Material.BOW);
+            ItemMeta meta32 = stack32.getItemMeta();
+            meta32.displayName(Component.text(guild.isMember(viewUser) ? "Guild から追放" : "Guild に招待").color(guild.isMember(viewUser) ? NamedTextColor.RED : NamedTextColor.GREEN));
+            stack32.setItemMeta(meta32);
+            this.register(32, stack32, guild.isMember(viewUser) ? String.format("rc guild:kick %s", view.getName()) : String.format("rc guild:invite %s %s", guild.getId(), view.getName()));
+        }
     }
 }

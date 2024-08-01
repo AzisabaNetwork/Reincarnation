@@ -3,6 +3,9 @@ package net.azisaba.rc.guild;
 import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.user.User;
 import net.azisaba.rc.util.GuildUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class Guild
 
     private String name;
     private int exp;
+    private int money;
 
     private User master;
     private ArrayList<User> members = new ArrayList<>();
@@ -45,6 +49,7 @@ public class Guild
 
             this.name = rs.getString("name");
             this.exp = rs.getInt("exp");
+            this.money = rs.getInt("money");
             this.master = User.getInstance(rs.getString("master"));
 
             rs.close();
@@ -83,7 +88,7 @@ public class Guild
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO guild VALUES(?, ?, ?, ?)");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO guild VALUES(?, ?, ?, ?, 0)");
             stmt.setString(1, this.id);
             stmt.setString(2, this.name);
             stmt.setString(3, this.master.getId());
@@ -100,6 +105,7 @@ public class Guild
         }
 
         Guild.instances.add(this);
+        this.members.add(master);
         this.master.setGuild(this);
     }
 
@@ -135,16 +141,79 @@ public class Guild
         return this.members;
     }
 
+    public boolean isMember(Player player)
+    {
+        return this.isMember(User.getInstance(player));
+    }
+
+    public boolean isMember(User user)
+    {
+        return this.members.contains(user);
+    }
+
+    public int getExp()
+    {
+        return this.exp;
+    }
+
+    public void setExp(int exp)
+    {
+        this.exp = exp;
+        this.upload();
+    }
+
+    public int getMoney()
+    {
+        return this.money;
+    }
+
+    public void setMoney(int money)
+    {
+        this.money = money;
+        this.upload();
+    }
+
+    public void close()
+    {
+        this.members.forEach(m -> m.sendMessage(Component.text(String.format("%s は Guild マスターによって解散されました", this.name)).color(NamedTextColor.RED)));
+        this.members.forEach(m -> m.setGuild(null));
+
+        Guild.instances.remove(this);
+
+        try
+        {
+            Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
+            PreparedStatement stmt = con.prepareStatement("DELETE FROM guild WHERE id = ?");
+            stmt.setString(1, this.id);
+            stmt.executeUpdate();
+
+            stmt.close();
+            con.close();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void join(User user)
     {
         this.members.add(user);
         user.setGuild(this);
+
+        this.members.forEach(m -> m.sendMessage(user.getRankedName()
+                .append(Component.text(" が Guild に参加しました！").color(NamedTextColor.YELLOW))));
     }
 
     public void quit(User user)
     {
         this.members.remove(user);
-        user.setGuild(this);
+        user.setGuild(null);
+
+        this.members.forEach(m -> m.sendMessage(user.getRankedName()
+                .append(Component.text(" が Guild から退出しました").color(NamedTextColor.YELLOW))));
+
+        user.sendMessage(Component.text("Guild から退出しました").color(NamedTextColor.RED));
     }
 
     public void upload()
@@ -152,11 +221,12 @@ public class Guild
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("UPDATE guild SET name = ?, master = ?, exp = ? WHERE id = ?");
+            PreparedStatement stmt = con.prepareStatement("UPDATE guild SET name = ?, master = ?, exp = ?, money = ? WHERE id = ?");
             stmt.setString(1, this.name);
             stmt.setString(2, this.master.getId());
             stmt.setInt(3, this.exp);
-            stmt.setString(4, this.id);
+            stmt.setInt(4, this.money);
+            stmt.setString(5, this.id);
 
             stmt.executeUpdate();
 

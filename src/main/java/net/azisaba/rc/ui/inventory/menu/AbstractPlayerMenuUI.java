@@ -49,7 +49,7 @@ public abstract class AbstractPlayerMenuUI extends GameMenuUI
 
         ItemStack playerStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta playerMeta = (SkullMeta) playerStack.getItemMeta();
-        playerMeta.displayName(user.getRank().getRankedName(player.getName()).decoration(TextDecoration.ITALIC, false));
+        playerMeta.displayName(user.getRankedName().decoration(TextDecoration.ITALIC, false));
         playerMeta.setOwningPlayer(player);
         playerStack.setItemMeta(playerMeta);
         return playerStack;

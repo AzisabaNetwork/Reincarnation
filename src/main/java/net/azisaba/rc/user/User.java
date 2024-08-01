@@ -4,10 +4,14 @@ import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.util.UserUtil;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class User
 {
@@ -24,6 +28,11 @@ public class User
         return User.getInstance(player.getUniqueId().toString());
     }
 
+    public static ArrayList<User> getInstances()
+    {
+        return User.instances;
+    }
+
     private final String id;
 
     private String name;
@@ -32,13 +41,17 @@ public class User
     private int exp;
     private int money;
 
+    private final OfflinePlayer player;
     private final ArrayList<User> friends = new ArrayList<>();
     private final ArrayList<User> friendRequests = new ArrayList<>();
     private final ArrayList<QuestEngine> quests = new ArrayList<>();
 
+    public boolean friendLoadedFlag = false;
+
     private User(String id)
     {
         this.id = id;
+        this.player = Bukkit.getOfflinePlayer(UUID.fromString(id));
 
         try
         {
@@ -88,6 +101,8 @@ public class User
         this.exp = exp;
         this.money = money;
 
+        this.player = Bukkit.getOfflinePlayer(UUID.fromString(id));
+
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
@@ -118,7 +133,17 @@ public class User
 
     public String getName()
     {
-        return this.name;
+        return (this.name == null) ? this.getPlaneName() : this.name;
+    }
+
+    public String getPlaneName()
+    {
+        return this.player.getName();
+    }
+
+    public Component getRankedName()
+    {
+        return this.rank.getRankedName(this.getPlaneName());
     }
 
     public void setName(String name)
@@ -178,6 +203,11 @@ public class User
 
     public void friend(User user)
     {
+        if (user == this)
+        {
+            return;
+        }
+
         if (this.isFriend(user))
         {
             return;
@@ -224,6 +254,31 @@ public class User
         return this.quests.contains(quest);
     }
 
+    public boolean isOnline()
+    {
+        return Bukkit.getPlayer(UUID.fromString(this.id)) != null;
+    }
+
+    public Player getAsPlayer()
+    {
+        return Bukkit.getPlayer(UUID.fromString(this.id));
+    }
+
+    public OfflinePlayer getAsOfflinePlayer()
+    {
+        return Bukkit.getOfflinePlayer(UUID.fromString(this.id));
+    }
+
+    public void sendMessage(Component msg)
+    {
+        Player player = Bukkit.getPlayer(UUID.fromString(this.id));
+
+        if (player != null)
+        {
+            player.sendMessage(msg);
+        }
+    }
+
     public void upload()
     {
         try
@@ -239,6 +294,8 @@ public class User
 
             stmt.executeUpdate();
 
+            stmt.close();
+
             PreparedStatement stmt2 = con.prepareStatement("DELETE FROM quest WHERE user = ?");
             stmt2.setString(1, this.id);
             stmt2.executeUpdate();
@@ -253,26 +310,26 @@ public class User
                 stmt3.executeUpdate();
             }
 
-            stmt3.close();
-
-            PreparedStatement stmt4 = con.prepareStatement("DELETE FROM friend WHERE user1 = ? OR user2 = ?");
-            stmt4.setString(1, this.id);
-            stmt4.setString(2, this.id);
-            stmt4.executeUpdate();
-            stmt4.close();
-
-            PreparedStatement stmt5 = con.prepareStatement("INSERT INTO friend VALUES(?, ?)");
-
-            for (User friend : this.friends)
+            if (this.friendLoadedFlag)
             {
-                stmt5.setString(1, this.id);
-                stmt5.setString(2, friend.getId());
-                stmt5.executeUpdate();
+                PreparedStatement stmt4 = con.prepareStatement("DELETE FROM friend WHERE user1 = ? OR user2 = ?");
+                stmt4.setString(1, this.id);
+                stmt4.setString(2, this.id);
+                stmt4.executeUpdate();
+                stmt4.close();
+
+                PreparedStatement stmt5 = con.prepareStatement("INSERT INTO friend VALUES(?, ?)");
+
+                for (User friend : this.friends)
+                {
+                    stmt5.setString(1, this.id);
+                    stmt5.setString(2, friend.getId());
+                    stmt5.executeUpdate();
+                }
+
+                stmt5.close();
             }
 
-            stmt5.close();
-
-            stmt.close();
             con.close();
         }
         catch (SQLException e)

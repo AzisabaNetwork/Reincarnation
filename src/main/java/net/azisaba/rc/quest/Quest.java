@@ -5,14 +5,19 @@ import net.azisaba.rc.ui.AnimationBuilder;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.ui.SidePanel;
 import net.azisaba.rc.util.QuestUtil;
+import net.azisaba.rc.util.UserUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Quest
 {
@@ -136,15 +141,46 @@ public class Quest
     public void end()
     {
         this.party.getMembers().forEach(this.panel::removePlayer);
+        this.party.getMembers().forEach(UserUtil::sidePanel);
         this.party.setQuest(null);
 
-        new BukkitRunnable()
+        for (Player member : this.party.getMembers())
         {
-            @Override
-            public void run()
+            PlayerInventory inventory = member.getInventory();
+
+            for (int i = 0; i < inventory.getSize(); i ++)
             {
-                engine.runEndScripts();
+                ItemStack stack = inventory.getItem(i);
+
+                if (stack == null || ! stack.hasItemMeta())
+                {
+                    continue;
+                }
+
+                ItemMeta meta = stack.getItemMeta();
+
+                if (meta != null && meta.hasLore())
+                {
+                    List<String> lore = meta.getLore();
+
+                    if (lore.stream().anyMatch(row -> row.contains("クエスト用アイテム")))
+                    {
+                        inventory.setItem(i, null);
+                    }
+                }
             }
-        }.runTaskLater(Reincarnation.getPlugin(), 20L * 5);
+        }
+
+        if (this.engine.getAmount() <= this.progress)
+        {
+            new BukkitRunnable()
+            {
+                @Override
+                public void run()
+                {
+                    engine.runEndScripts();
+                }
+            }.runTaskLater(Reincarnation.getPlugin(), 20L * 5);
+        }
     }
 }

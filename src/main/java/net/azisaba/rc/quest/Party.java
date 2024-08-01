@@ -1,6 +1,7 @@
 package net.azisaba.rc.quest;
 
 import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.UserUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
@@ -112,6 +113,11 @@ public class Party
         if (this.leader == player)
         {
             this.close();
+        }
+
+        if (this.quest != null)
+        {
+            UserUtil.sidePanel(player);
         }
     }
 

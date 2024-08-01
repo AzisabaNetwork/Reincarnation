@@ -1,10 +1,12 @@
 package net.azisaba.rc.ui.inventory;
 
+import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,22 +41,24 @@ public abstract class PlayerSelectorUI extends InventoryUI
         this.inventory.setItem(53, nextStack);
     }
 
-    public String getCommand(Player player)
+    public String getCommand(OfflinePlayer player)
     {
         return null;
     }
 
-    public ItemStack getPlayerStack(Player player)
+    public ItemStack getPlayerStack(OfflinePlayer player)
     {
+        User user = User.getInstance(player.getUniqueId().toString());
+
         ItemStack playerStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta playerMeta = (SkullMeta) playerStack.getItemMeta();
-        playerMeta.displayName(player.displayName().decoration(TextDecoration.ITALIC, false));
+        playerMeta.displayName(user.getRankedName().decoration(TextDecoration.ITALIC, false));
         playerMeta.setOwningPlayer(player);
         playerStack.setItemMeta(playerMeta);
         return playerStack;
     }
 
-    public ArrayList<Player> getPlayers()
+    public ArrayList<OfflinePlayer> getPlayers()
     {
         return new ArrayList<>(Bukkit.getOnlinePlayers());
     }
@@ -79,7 +83,7 @@ public abstract class PlayerSelectorUI extends InventoryUI
 
     public void draw(int p)
     {
-        ArrayList<Player> players = this.getPlayers();
+        ArrayList<OfflinePlayer> players = this.getPlayers();
         int pgsize = this.j2 - this.j1;
         int index = this.j1;
 
@@ -90,7 +94,7 @@ public abstract class PlayerSelectorUI extends InventoryUI
                 break;
             }
 
-            Player player = players.get(i);
+            OfflinePlayer player = players.get(i);
             String command = this.getCommand(player);
 
             if (command == null)

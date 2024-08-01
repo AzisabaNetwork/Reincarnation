@@ -4,6 +4,7 @@ import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.guild.Guild;
 
 import java.sql.*;
+import java.util.Random;
 import java.util.UUID;
 
 public class GuildUtil
@@ -22,6 +23,31 @@ public class GuildUtil
         }
 
         return id;
+    }
+
+    public static String getTemporaryName()
+    {
+        String name = null;
+        boolean loopFlag = true;
+
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        while (loopFlag)
+        {
+            sb = new StringBuilder();
+
+            for (int i = 0; i < 8; i ++)
+            {
+                sb.append(characters.charAt(random.nextInt(characters.length())));
+            }
+
+            final StringBuilder finalSb = sb;
+            loopFlag = Guild.getInstances().stream().anyMatch(i -> i.getName().equals(finalSb.toString()));
+        }
+
+        return sb.toString();
     }
 
     public static void mount()

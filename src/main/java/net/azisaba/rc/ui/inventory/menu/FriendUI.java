@@ -44,6 +44,25 @@ public class FriendUI extends AbstractPlayerMenuUI
     }
 
     @Override
+    public ItemStack getPlayerStack(OfflinePlayer player)
+    {
+        ItemStack playerStack = super.getPlayerStack(player);
+        ItemMeta playerMeta = playerStack.getItemMeta();
+
+        if (Bukkit.getPlayerExact(player.getName()) == null)
+        {
+            playerMeta.lore(Collections.singletonList(Component.text("オフライン").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)));
+        }
+        else
+        {
+            playerMeta.lore(Collections.singletonList(Component.text("オンライン").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, true)));
+        }
+
+        playerStack.setItemMeta(playerMeta);
+        return playerStack;
+    }
+
+    @Override
     public ArrayList<OfflinePlayer> getPlayers()
     {
         final ArrayList<OfflinePlayer> friends = new ArrayList<>();

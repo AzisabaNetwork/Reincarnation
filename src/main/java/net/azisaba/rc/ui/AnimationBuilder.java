@@ -23,9 +23,9 @@ public class AnimationBuilder
 
     public static Component[] HYPIXEL(String src)
     {
-        Component[] animated = new Component[src.length()];
+        Component[] animated = new Component[src.length() + 4];
 
-        for (int i = 0; i < animated.length; i ++)
+        for (int i = 0; i < src.length(); i ++)
         {
             Component component = Component.text("");
 
@@ -41,6 +41,12 @@ public class AnimationBuilder
                 component = component.append(Component.text(src.substring(i + 1), NamedTextColor.YELLOW, TextDecoration.BOLD));
             }
 
+            animated[i] = component;
+        }
+
+        for (int i = src.length(); i < animated.length; i ++)
+        {
+            Component component = Component.text(src).color((i % 2 == 0) ? NamedTextColor.WHITE : NamedTextColor.YELLOW).decorate(TextDecoration.BOLD);
             animated[i] = component;
         }
 

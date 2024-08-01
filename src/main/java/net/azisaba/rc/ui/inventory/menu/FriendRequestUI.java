@@ -5,6 +5,7 @@ import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,13 +23,13 @@ public class FriendRequestUI extends PlayerSelectorUI
     }
 
     @Override
-    public String getCommand(Player player)
+    public String getCommand(OfflinePlayer player)
     {
         return String.format("rc social:friend-request %s %s", this.player.getName(), player.getName());
     }
 
     @Override
-    public ItemStack getPlayerStack(Player player)
+    public ItemStack getPlayerStack(OfflinePlayer player)
     {
         ItemStack playerStack = super.getPlayerStack(player);
         ItemMeta playerMeta = playerStack.getItemMeta();
@@ -38,9 +39,9 @@ public class FriendRequestUI extends PlayerSelectorUI
     }
 
     @Override
-    public ArrayList<Player> getPlayers()
+    public ArrayList<OfflinePlayer> getPlayers()
     {
         User user = User.getInstance(this.player);
-        return new ArrayList<>(super.getPlayers().stream().filter(p -> (! user.isFriend(User.getInstance(p))) && user != User.getInstance(p)).toList());
+        return new ArrayList<>(super.getPlayers().stream().filter(p -> (! user.isFriend(User.getInstance(p.getUniqueId().toString()))) && user != User.getInstance(p.getUniqueId().toString())).toList());
     }
 }
