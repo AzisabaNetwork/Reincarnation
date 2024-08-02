@@ -11,10 +11,8 @@ import net.azisaba.rc.listener.InventoryListener;
 import net.azisaba.rc.listener.PlayerListener;
 import net.azisaba.rc.quest.DailyQuests;
 import net.azisaba.rc.scheduler.DailyQuestShakeTask;
-import net.azisaba.rc.util.GuildUtil;
-import net.azisaba.rc.util.QuestUtil;
-import net.azisaba.rc.util.SQLUtil;
-import net.azisaba.rc.util.UserUtil;
+import net.azisaba.rc.ui.CLI;
+import net.azisaba.rc.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -65,7 +63,7 @@ public final class Reincarnation extends JavaPlugin
 
         if (! SQLUtil.test(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS))
         {
-            this.getLogger().warning("Database connection test failed. Please check config.yml.");
+            this.getLogger().warning(CLI.RED + "Database connection test failed. Please check config.yml." + CLI.END);
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -82,6 +80,7 @@ public final class Reincarnation extends JavaPlugin
 
         GuildUtil.mount();
         UserUtil.mount();
+        ScenarioUtil.mount();
 
         new DailyQuestShakeTask().runTaskLater(this, DailyQuestShakeTask.getLaterTicks());
         DailyQuests.shuffle();

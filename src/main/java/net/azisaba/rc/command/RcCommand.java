@@ -6,6 +6,7 @@ import net.azisaba.rc.command.skill.party.*;
 import net.azisaba.rc.command.skill.quest.QuestProgressionSkill;
 import net.azisaba.rc.command.skill.quest.QuestStartSkill;
 import net.azisaba.rc.command.skill.quest.QuestUnlockSkill;
+import net.azisaba.rc.command.skill.scenario.ScenarioStartSkill;
 import net.azisaba.rc.command.skill.social.SocialFriendRequestSkill;
 import net.azisaba.rc.command.skill.social.SocialFriendSkill;
 import net.azisaba.rc.command.skill.social.SocialUnfriendSkill;
@@ -45,6 +46,7 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.skills.put("quest:progression", new QuestProgressionSkill());
         RcCommand.skills.put("quest:start", new QuestStartSkill());
         RcCommand.skills.put("quest:unlock", new QuestUnlockSkill());
+        RcCommand.skills.put("scenario:start", new ScenarioStartSkill());
         RcCommand.skills.put("social:friend", new SocialFriendSkill());
         RcCommand.skills.put("social:friend-request", new SocialFriendRequestSkill());
         RcCommand.skills.put("social:unfriend", new SocialUnfriendSkill());

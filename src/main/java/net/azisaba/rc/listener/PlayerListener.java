@@ -2,6 +2,7 @@ package net.azisaba.rc.listener;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.azisaba.rc.command.skill.AbstractTypingSkill;
+import net.azisaba.rc.scenario.Scenario;
 import net.azisaba.rc.user.User;
 import net.azisaba.rc.util.PartyUtil;
 import net.azisaba.rc.util.UserUtil;
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -38,6 +40,18 @@ public class PlayerListener implements Listener
         if (PartyUtil.isPartyPlayer(player))
         {
             PartyUtil.getParty(player).quit(player);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event)
+    {
+        Player player = event.getPlayer();
+        Scenario scenario = Scenario.getInstance(player);
+
+        if (scenario != null)
+        {
+            scenario.onPlayerInteract(event);
         }
     }
 

@@ -6,6 +6,7 @@ group = 'net.azisaba.rc'
 version = '0.3.2'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         name = "papermc-repo"
@@ -19,6 +20,7 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot:1.17.1-R0.1-SNAPSHOT"
 }
 
 def targetJavaVersion = 16
