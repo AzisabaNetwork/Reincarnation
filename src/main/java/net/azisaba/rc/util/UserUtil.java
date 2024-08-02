@@ -15,7 +15,7 @@ import java.util.Date;
 public class UserUtil
 {
 
-    public static boolean exits(String id)
+    public static boolean exists(String id)
     {
         try
         {

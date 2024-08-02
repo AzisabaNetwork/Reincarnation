@@ -20,7 +20,7 @@ public class User
     public static User getInstance(String id)
     {
         ArrayList<User> filteredInstances = new ArrayList<>(User.instances.stream().filter(i -> i.getId().equals(id)).toList());
-        return filteredInstances.isEmpty() ? UserUtil.exits(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
+        return filteredInstances.isEmpty() ? UserUtil.exists(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
     }
 
     public static User getInstance(Player player)
