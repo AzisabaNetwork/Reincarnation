@@ -18,7 +18,7 @@ import java.util.ArrayList;
 // Note: We are working on merging with AbstractPlayerMenuUI.
 
 @Deprecated
-public abstract class PlayerSelectorUI extends InventoryUI
+public abstract class PlayerSelectorUI extends AbstractInventoryUI
 {
     protected int j1 = 0;
     protected int j2 = 36;

@@ -1,7 +1,7 @@
 package net.azisaba.rc.ui.inventory.quest;
 
 import net.azisaba.rc.quest.QuestEngine;
-import net.azisaba.rc.ui.inventory.InventoryUI;
+import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public abstract class QuestMenuUI extends InventoryUI
+public abstract class QuestMenuUI extends AbstractInventoryUI
 {
     private final ArrayList<QuestEngine> quests = new ArrayList<>();
     protected int page = 0;

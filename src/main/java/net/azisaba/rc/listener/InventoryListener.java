@@ -1,6 +1,6 @@
 package net.azisaba.rc.listener;
 
-import net.azisaba.rc.ui.inventory.InventoryUI;
+import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,13 +19,13 @@ public class InventoryListener implements Listener
         Inventory inventory = event.getClickedInventory();
         Player player = (Player) event.getWhoClicked();
 
-        if (InventoryUI.getInstances().containsValue(player.getOpenInventory().getTopInventory()))
+        if (AbstractInventoryUI.getInstances().containsValue(player.getOpenInventory().getTopInventory()))
         {
             event.setCancelled(true);
 
-            if (InventoryUI.getInstances().containsValue(inventory))
+            if (AbstractInventoryUI.getInstances().containsValue(inventory))
             {
-                Map.Entry<InventoryUI, Inventory> entry = InventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
+                Map.Entry<AbstractInventoryUI, Inventory> entry = AbstractInventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
                 entry.getKey().onInventoryClick(event);
             }
         }
@@ -36,9 +36,9 @@ public class InventoryListener implements Listener
     {
         Inventory inventory = event.getInventory();
 
-        if (InventoryUI.getInstances().containsValue(inventory))
+        if (AbstractInventoryUI.getInstances().containsValue(inventory))
         {
-            Map.Entry<InventoryUI, Inventory> entry = InventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
+            Map.Entry<AbstractInventoryUI, Inventory> entry = AbstractInventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
             entry.getKey().onInventoryClose(event);
         }
     }

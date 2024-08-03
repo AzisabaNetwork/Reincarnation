@@ -9,26 +9,26 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public abstract class InventoryUI
+public abstract class AbstractInventoryUI
 {
-    protected static final HashMap<InventoryUI, Inventory> instances = new HashMap<>();
+    protected static final HashMap<AbstractInventoryUI, Inventory> instances = new HashMap<>();
 
-    public static HashMap<InventoryUI, Inventory> getInstances()
+    public static HashMap<AbstractInventoryUI, Inventory> getInstances()
     {
-        return InventoryUI.instances;
+        return AbstractInventoryUI.instances;
     }
 
     protected final Player player;
     protected final Inventory inventory;
     protected final HashMap<Integer, String> items = new HashMap<>();
 
-    public InventoryUI(Player player, Inventory inventory)
+    public AbstractInventoryUI(Player player, Inventory inventory)
     {
         this.player = player;
         this.inventory = inventory;
 
         this.player.openInventory(this.inventory);
-        InventoryUI.instances.put(this, inventory);
+        AbstractInventoryUI.instances.put(this, inventory);
     }
 
     public void register(int index, ItemStack item, String command)
@@ -47,6 +47,6 @@ public abstract class InventoryUI
 
     public void onInventoryClose(InventoryCloseEvent event)
     {
-        InventoryUI.instances.remove(this);
+        AbstractInventoryUI.instances.remove(this);
     }
 }

@@ -6,24 +6,24 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class ConfigurationUtil
+public class ResourceUtil
 {
 
-    public static File getFile(String name)
+    public static File getResource(String name)
     {
         return new File(Reincarnation.getPlugin().getDataFolder(), name);
     }
 
-    public static YamlConfiguration getConfiguration(String name)
+    public static YamlConfiguration getYamlResource(String name)
     {
-        return YamlConfiguration.loadConfiguration(ConfigurationUtil.getFile(name));
+        return YamlConfiguration.loadConfiguration(ResourceUtil.getResource(name));
     }
 
-    public static void saveConfiguration(String name, YamlConfiguration configuration)
+    public static void save(String name, YamlConfiguration resource)
     {
         try
         {
-            configuration.save(ConfigurationUtil.getFile(name));
+            resource.save(ResourceUtil.getResource(name));
         }
         catch (IOException e)
         {

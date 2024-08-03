@@ -34,7 +34,7 @@ public class QuestUtil
             return false;
         }
 
-        YamlConfiguration config = ConfigurationUtil.getConfiguration("/quests/" + name);
+        YamlConfiguration config = ResourceUtil.getYamlResource("/quests/" + name);
 
         ArrayList<String> requiredParameters = new ArrayList<>();
         requiredParameters.add("Display");

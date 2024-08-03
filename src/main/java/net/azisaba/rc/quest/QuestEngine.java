@@ -1,6 +1,6 @@
 package net.azisaba.rc.quest;
 
-import net.azisaba.rc.util.ConfigurationUtil;
+import net.azisaba.rc.util.ResourceUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -52,7 +52,7 @@ public class QuestEngine
     {
         this.id = id;
 
-        this.parameters = ConfigurationUtil.getConfiguration(String.format("/quests/%s.yml", this.id));
+        this.parameters = ResourceUtil.getYamlResource(String.format("/quests/%s.yml", this.id));
 
         this.display = this.parameters.getString("Display");
         this.lore = new ArrayList<>(this.parameters.getStringList("Lore"));

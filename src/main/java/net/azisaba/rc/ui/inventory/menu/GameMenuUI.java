@@ -1,6 +1,6 @@
 package net.azisaba.rc.ui.inventory.menu;
 
-import net.azisaba.rc.ui.inventory.InventoryUI;
+import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Collections;
 
-public abstract class GameMenuUI extends InventoryUI
+public abstract class GameMenuUI extends AbstractInventoryUI
 {
 
     public GameMenuUI(Player player, Component title)

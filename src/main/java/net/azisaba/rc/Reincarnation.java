@@ -15,14 +15,12 @@ import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.SimpleDateFormat;
 
 public final class Reincarnation extends JavaPlugin
 {
     private static Reincarnation plugin;
-    private static BukkitRunnable runnable;
 
     public static final SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yy");
 
@@ -35,27 +33,16 @@ public final class Reincarnation extends JavaPlugin
         return Reincarnation.plugin;
     }
 
-    public void tick()
-    {
-
-    }
-
     @Override
     public void onEnable()
     {
         Reincarnation.plugin = this;
-        Reincarnation.runnable = new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                tick();
-            }
-        };
-        Reincarnation.runnable.runTaskTimer(this, 0L, 20L);
 
         this.saveDefaultConfig();
         this.getCommand("rc").setExecutor(new RcCommand());
+
+        Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         Reincarnation.DB_URL = this.getConfig().getString("database.url");
         Reincarnation.DB_USER = this.getConfig().getString("database.user");
@@ -67,9 +54,6 @@ public final class Reincarnation extends JavaPlugin
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
-        Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         if (! QuestUtil.mount())
         {

@@ -2,7 +2,6 @@ package net.azisaba.rc.ui.inventory;
 
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.inventory.menu.GameMenuUI;
-import net.azisaba.rc.ui.inventory.menu.GuildUI;
 import net.azisaba.rc.ui.inventory.menu.ProfileUI;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;

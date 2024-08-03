@@ -1,7 +1,7 @@
 package net.azisaba.rc.command.skill.ui;
 
 import net.azisaba.rc.command.skill.RcCommandSkill;
-import net.azisaba.rc.ui.inventory.InventoryUI;
+import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public abstract class UIOpenSkill extends RcCommandSkill
 {
-    protected final Class<? extends InventoryUI> clazz;
+    protected final Class<? extends AbstractInventoryUI> clazz;
 
-    public UIOpenSkill(String name, Class<? extends InventoryUI> clazz)
+    public UIOpenSkill(String name, Class<? extends AbstractInventoryUI> clazz)
     {
         super(name);
 

@@ -27,7 +27,6 @@ public class GuildUtil
 
     public static String getTemporaryName()
     {
-        String name = null;
         boolean loopFlag = true;
 
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
