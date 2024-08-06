@@ -29,7 +29,6 @@ public class DailyQuestShakeTask extends BukkitRunnable
     public void run()
     {
         DailyQuests.shuffle();
-        this.cancel();
-        this.runTaskLater(Reincarnation.getPlugin(), DailyQuestShakeTask.getLaterTicks());
+        new DailyQuestShakeTask().runTaskLater(Reincarnation.getPlugin(), DailyQuestShakeTask.getLaterTicks());
     }
 }
