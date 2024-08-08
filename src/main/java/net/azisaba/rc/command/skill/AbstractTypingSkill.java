@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public abstract class AbstractTypingSkill extends RcCommandSkill
+public abstract class AbstractTypingSkill implements IRcCommandSkill
 {
     private static final ArrayList<AbstractTypingSkill> instances = new ArrayList<>();
 
@@ -18,17 +18,15 @@ public abstract class AbstractTypingSkill extends RcCommandSkill
 
     public Player player;
 
-    public AbstractTypingSkill(String name)
+    public AbstractTypingSkill()
     {
-        super(name);
         AbstractTypingSkill.instances.add(this);
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         this.enableTyping(this.player);
-        return true;
     }
 
     public void enableTyping(Player player)

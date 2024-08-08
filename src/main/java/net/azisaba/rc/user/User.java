@@ -40,6 +40,9 @@ public class User
     private Guild guild;
     private int exp;
     private int money;
+    private String youtube;
+    private String twitter;
+    private String discord;
 
     private final OfflinePlayer player;
     private final ArrayList<User> friends = new ArrayList<>();
@@ -66,6 +69,9 @@ public class User
             this.rank = UserRank.valueOf(rs.getString("role"));
             this.exp = rs.getInt("exp");
             this.money = rs.getInt("money");
+            this.youtube = rs.getString("youtube");
+            this.twitter = rs.getString("twitter");
+            this.discord = rs.getString("discord");
 
             rs.close();
             stmt.close();
@@ -106,13 +112,16 @@ public class User
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?, ?, ?)");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, this.id);
             stmt.setString(2, this.name);
             stmt.setString(3, this.rank.toString());
             stmt.setString(4, (this.guild == null) ? null : this.guild.getId());
             stmt.setInt(5, this.exp);
             stmt.setInt(6, this.money);
+            stmt.setString(7, this.youtube);
+            stmt.setString(8, this.twitter);
+            stmt.setString(9, this.discord);
 
             stmt.executeUpdate();
             stmt.close();
@@ -193,6 +202,39 @@ public class User
     public void setMoney(int money)
     {
         this.money = money;
+        this.upload();
+    }
+
+    public String getYoutube()
+    {
+        return this.youtube;
+    }
+
+    public void setYoutube(String youtube)
+    {
+        this.youtube = youtube;
+        this.upload();
+    }
+
+    public String getTwitter()
+    {
+        return this.twitter;
+    }
+
+    public void setTwitter(String twitter)
+    {
+        this.twitter = twitter;
+        this.upload();
+    }
+
+    public String getDiscord()
+    {
+        return this.discord;
+    }
+
+    public void setDiscord(String discord)
+    {
+        this.discord = discord;
         this.upload();
     }
 
@@ -284,13 +326,16 @@ public class User
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
-            PreparedStatement stmt = con.prepareStatement("UPDATE user SET name = ?, role = ?, guild = ?, exp = ?, money = ? WHERE id = ?");
+            PreparedStatement stmt = con.prepareStatement("UPDATE user SET name = ?, role = ?, guild = ?, exp = ?, money = ?, youtube = ?, twitter = ?, discord = ? WHERE id = ?");
             stmt.setString(1, this.name);
             stmt.setString(2, this.rank.toString());
             stmt.setString(3, (this.guild == null) ? null : this.guild.getId());
             stmt.setInt(4, this.exp);
             stmt.setInt(5, this.money);
-            stmt.setString(6, this.id);
+            stmt.setString(6, this.youtube);
+            stmt.setString(7, this.twitter);
+            stmt.setString(8, this.discord);
+            stmt.setString(9, this.id);
 
             stmt.executeUpdate();
 

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.guild;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.CLI;
 import net.kyori.adventure.text.Component;
@@ -12,33 +12,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GuildInviteSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class GuildInviteSkill implements IRcCommandSkill
 {
 
-    public GuildInviteSkill()
+    @Override
+    public String getName()
     {
-        super("guild:invite");
+        return "guild:invite";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc guild:invite <guild> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Guild.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown guild.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
@@ -47,7 +56,7 @@ public class GuildInviteSkill extends RcCommandSkill
         if (guild.isMember(player))
         {
             sender.sendMessage(Component.text("This player is already in a guild.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         player.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE));
@@ -62,6 +71,11 @@ public class GuildInviteSkill extends RcCommandSkill
                 .append(player.displayName())
                 .append(Component.text(" を Guild に招待しました！").color(NamedTextColor.YELLOW))));
         guild.getMembers().forEach(m -> m.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE)));
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

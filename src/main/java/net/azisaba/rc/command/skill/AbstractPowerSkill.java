@@ -2,18 +2,34 @@ package net.azisaba.rc.command.skill;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-public class AbstractPowerSkill extends AbstractTypingSkill
+public abstract class AbstractPowerSkill extends AbstractTypingSkill
 {
     protected String confirmCode;
     protected int length = 6;
 
-    public AbstractPowerSkill(String name)
+    @Override
+    public boolean isOPCommand()
     {
-        super(name);
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
+    {
+        super.onCommand(sender, command, label, args);
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.quest;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.user.User;
 import net.azisaba.rc.util.PartyUtil;
@@ -13,33 +13,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class QuestUnlockSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class QuestUnlockSkill implements IRcCommandSkill
 {
 
-    public QuestUnlockSkill()
+    @Override
+    public String getName()
     {
-        super("quest:unlock");
+        return "quest:unlock";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc quest:unlock <quest> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (QuestEngine.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown quest.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[0]);
@@ -47,7 +56,7 @@ public class QuestUnlockSkill extends RcCommandSkill
         if (! PartyUtil.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is not a party member.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         User user = User.getInstance(player);
@@ -56,7 +65,7 @@ public class QuestUnlockSkill extends RcCommandSkill
         if (user.isUnlocked(quest))
         {
             sender.sendMessage(Component.text("This player has already unlocked this quest.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         user.unlock(quest);
@@ -71,6 +80,11 @@ public class QuestUnlockSkill extends RcCommandSkill
         player.sendMessage(Component.text("クエスト ").color(NamedTextColor.YELLOW)
                 .append(Component.text(quest.getDisplay()).color(NamedTextColor.AQUA).hoverEvent(HoverEvent.showText(lore)))
                 .append(Component.text(" をアンロックしました！").color(NamedTextColor.YELLOW)));
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

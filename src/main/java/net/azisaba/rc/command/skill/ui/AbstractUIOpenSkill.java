@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,30 +12,34 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public abstract class UIOpenSkill extends RcCommandSkill
+public abstract class AbstractUIOpenSkill implements IRcCommandSkill
 {
     protected final Class<? extends AbstractInventoryUI> clazz;
 
-    public UIOpenSkill(String name, Class<? extends AbstractInventoryUI> clazz)
+    public AbstractUIOpenSkill(Class<? extends AbstractInventoryUI> clazz)
     {
-        super(name);
-
         this.clazz = clazz;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 1)
         {
             sender.sendMessage(Component.text(String.format("Correct syntax: /rc %s <player>", this.getName())).color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[0]);
@@ -48,7 +52,6 @@ public abstract class UIOpenSkill extends RcCommandSkill
         {
             throw new RuntimeException(e);
         }
-        return true;
     }
 
     @Override

@@ -71,4 +71,28 @@ public class GuildUtil
             throw new RuntimeException(e);
         }
     }
+
+    public static boolean exists(String id)
+    {
+        try
+        {
+            Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
+            PreparedStatement stmt = con.prepareStatement("SELECT id FROM guild WHERE id = ?");
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
+
+            boolean exists = rs.next();
+
+            rs.close();
+            stmt.close();
+            con.close();
+
+            return exists;
+        }
+        catch (SQLException e)
+        {
+            return false;
+        }
+    }
 }

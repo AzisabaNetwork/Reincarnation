@@ -2,11 +2,17 @@ package net.azisaba.rc.command.skill.ui;
 
 import net.azisaba.rc.ui.inventory.quest.QuestEventMenuUI;
 
-public class UIQuestEventMenuSkill extends UIOpenSkill
+public class UIQuestEventMenuSkill extends AbstractUIOpenSkill
 {
 
     public UIQuestEventMenuSkill()
     {
-        super("ui:quest-event", QuestEventMenuUI.class);
+        super(QuestEventMenuUI.class);
+    }
+
+    @Override
+    public String getName()
+    {
+        return "ui:quest-event";
     }
 }

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.quest;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.quest.Quest;
 import net.azisaba.rc.quest.QuestEngine;
@@ -12,33 +12,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class QuestStartSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class QuestStartSkill implements IRcCommandSkill
 {
 
-    public QuestStartSkill()
+    @Override
+    public String getName()
     {
-        super("quest:start");
+        return "quest:start";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc quest:start <quest> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (QuestEngine.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown quest.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
@@ -47,11 +56,16 @@ public class QuestStartSkill extends RcCommandSkill
         if (party.getLeader() != player)
         {
             player.sendMessage(Component.text("クエストを開始するには、Party リーダーである必要があります。").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         player.closeInventory();
         new Quest(QuestEngine.getInstance(args[0]), party);
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

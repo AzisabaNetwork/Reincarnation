@@ -45,21 +45,21 @@ public class SocialMenuUI extends GameMenuUI
         ItemStack stack21 = new ItemStack(Material.STICK);
         ItemMeta meta21 = stack21.getItemMeta();
         meta21.displayName(Component.text("YouTube").color(TextColor.color(255, 0, 0)).decoration(TextDecoration.ITALIC, false));
-        meta21.lore(Collections.singletonList(Component.text("@username").color(NamedTextColor.GRAY)));
+        meta21.lore(Collections.singletonList(Component.text((viewUser.getYoutube() != null) ? String.format("@%s", viewUser.getYoutube()) : String.format("%s はこの項目を設定していません", viewUser.getName())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack21.setItemMeta(meta21);
         this.inventory.setItem(21, stack21);
 
         ItemStack stack22 = new ItemStack(Material.STICK);
         ItemMeta meta22 = stack22.getItemMeta();
         meta22.displayName(Component.text("Twitter").color(TextColor.color(29, 161, 242)).decoration(TextDecoration.ITALIC, false));
-        meta22.lore(Collections.singletonList(Component.text("@username").color(NamedTextColor.GRAY)));
+        meta22.lore(Collections.singletonList(Component.text((viewUser.getTwitter() != null) ? String.format("@%s", viewUser.getTwitter()) : String.format("%s はこの項目を設定していません", viewUser.getName())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack22.setItemMeta(meta22);
         this.inventory.setItem(22, stack22);
 
         ItemStack stack23 = new ItemStack(Material.STICK);
         ItemMeta meta23 = stack23.getItemMeta();
         meta23.displayName(Component.text("Discord").color(TextColor.color(88, 101, 242)).decoration(TextDecoration.ITALIC, false));
-        meta23.lore(Collections.singletonList(Component.text("username").color(NamedTextColor.GRAY)));
+        meta23.lore(Collections.singletonList(Component.text((viewUser.getDiscord() != null) ? viewUser.getDiscord() : String.format("%s はこの項目を設定していません", viewUser.getName())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack23.setItemMeta(meta23);
         this.inventory.setItem(23, stack23);
 

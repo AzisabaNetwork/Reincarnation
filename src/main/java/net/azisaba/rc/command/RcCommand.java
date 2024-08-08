@@ -1,15 +1,13 @@
 package net.azisaba.rc.command;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.command.skill.guild.*;
 import net.azisaba.rc.command.skill.party.*;
 import net.azisaba.rc.command.skill.quest.QuestProgressionSkill;
 import net.azisaba.rc.command.skill.quest.QuestStartSkill;
 import net.azisaba.rc.command.skill.quest.QuestUnlockSkill;
 import net.azisaba.rc.command.skill.scenario.ScenarioStartSkill;
-import net.azisaba.rc.command.skill.social.SocialFriendRequestSkill;
-import net.azisaba.rc.command.skill.social.SocialFriendSkill;
-import net.azisaba.rc.command.skill.social.SocialUnfriendSkill;
+import net.azisaba.rc.command.skill.social.*;
 import net.azisaba.rc.command.skill.ui.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,47 +24,55 @@ import java.util.List;
 
 public class RcCommand implements CommandExecutor, TabCompleter
 {
-    public static final HashMap<String, RcCommandSkill> skills = new HashMap<>();
+    public static final HashMap<String, IRcCommandSkill> skills = new HashMap<>();
 
-    public RcCommand()
+    public static void registerSkill(IRcCommandSkill skill)
     {
-        RcCommand.skills.put("guild:close", new GuildCloseSkill());
-        RcCommand.skills.put("guild:create", new GuildCreateSkill());
-        RcCommand.skills.put("guild:invite", new GuildInviteSkill());
-        RcCommand.skills.put("guild:join", new GuildJoinSkill());
-        RcCommand.skills.put("guild:quit", new GuildQuitSkill());
-        RcCommand.skills.put("guild:rename", new GuildRenameSkill());
-        RcCommand.skills.put("party:assignment", new PartyAssignmentSkill());
-        RcCommand.skills.put("party:close", new PartyCloseSkill());
-        RcCommand.skills.put("party:create", new PartyCreateSkill());
-        RcCommand.skills.put("party:invite", new PartyInviteSkill());
-        RcCommand.skills.put("party:join", new PartyJoinSkill());
-        RcCommand.skills.put("party:kick", new PartyKickSkill());
-        RcCommand.skills.put("party:quit", new PartyQuitSkill());
-        RcCommand.skills.put("quest:progression", new QuestProgressionSkill());
-        RcCommand.skills.put("quest:start", new QuestStartSkill());
-        RcCommand.skills.put("quest:unlock", new QuestUnlockSkill());
-        RcCommand.skills.put("scenario:start", new ScenarioStartSkill());
-        RcCommand.skills.put("social:friend", new SocialFriendSkill());
-        RcCommand.skills.put("social:friend-request", new SocialFriendRequestSkill());
-        RcCommand.skills.put("social:unfriend", new SocialUnfriendSkill());
-        RcCommand.skills.put("ui:close", new UICloseSkill());
-        RcCommand.skills.put("ui:friend", new UIFriendSkill());
-        RcCommand.skills.put("ui:friend-request", new UIFriendRequestSkill());
-        RcCommand.skills.put("ui:guild", new UIGuildSkill());
-        RcCommand.skills.put("ui:guild-invite", new UIGuildInviteSkill());
-        RcCommand.skills.put("ui:guild-member", new UIGuildMemberSkill());
-        RcCommand.skills.put("ui:party", new UIPartySkill());
-        RcCommand.skills.put("ui:party-invite", new UIPartyInviteSkill());
-        RcCommand.skills.put("ui:profile", new UIProfileSkill());
-        RcCommand.skills.put("ui:quest", new UIQuestAllMenuSkill());
-        RcCommand.skills.put("ui:quest-all", new UIQuestAllMenuSkill());
-        RcCommand.skills.put("ui:quest-daily", new UIQuestDailyMenuSkill());
-        RcCommand.skills.put("ui:quest-event", new UIQuestEventMenuSkill());
-        RcCommand.skills.put("ui:quest-free", new UIQuestFreeMenuSkill());
-        RcCommand.skills.put("ui:quest-story", new UIQuestStoryMenuSkill());
-        RcCommand.skills.put("ui:settings", new UISettingsSkill());
-        RcCommand.skills.put("ui:social-menu", new UISocialMenuSkill());
+        RcCommand.skills.put(skill.getName(), skill);
+    }
+
+    static
+    {
+        RcCommand.registerSkill(new GuildCloseSkill());
+        RcCommand.registerSkill(new GuildCreateSkill());
+        RcCommand.registerSkill(new GuildInviteSkill());
+        RcCommand.registerSkill(new GuildJoinSkill());
+        RcCommand.registerSkill(new GuildQuitSkill());
+        RcCommand.registerSkill(new GuildRenameSkill());
+        RcCommand.registerSkill(new PartyAssignmentSkill());
+        RcCommand.registerSkill(new PartyCloseSkill());
+        RcCommand.registerSkill(new PartyCreateSkill());
+        RcCommand.registerSkill(new PartyInviteSkill());
+        RcCommand.registerSkill(new PartyJoinSkill());
+        RcCommand.registerSkill(new PartyKickSkill());
+        RcCommand.registerSkill(new PartyQuitSkill());
+        RcCommand.registerSkill(new QuestProgressionSkill());
+        RcCommand.registerSkill(new QuestStartSkill());
+        RcCommand.registerSkill(new QuestUnlockSkill());
+        RcCommand.registerSkill(new ScenarioStartSkill());
+        RcCommand.registerSkill(new SocialDiscordSkill());
+        RcCommand.registerSkill(new SocialFriendSkill());
+        RcCommand.registerSkill(new SocialFriendRequestSkill());
+        RcCommand.registerSkill(new SocialTwitterSkill());
+        RcCommand.registerSkill(new SocialUnfriendSkill());
+        RcCommand.registerSkill(new SocialYouTubeSkill());
+        RcCommand.registerSkill(new UICloseSkill());
+        RcCommand.registerSkill(new UIFriendSkill());
+        RcCommand.registerSkill(new UIFriendRequestSkill());
+        RcCommand.registerSkill(new UIGuildSkill());
+        RcCommand.registerSkill(new UIGuildInviteSkill());
+        RcCommand.registerSkill(new UIGuildMemberSkill());
+        RcCommand.registerSkill(new UIPartySkill());
+        RcCommand.registerSkill(new UIPartyInviteSkill());
+        RcCommand.registerSkill(new UIProfileSkill());
+        RcCommand.registerSkill(new UIQuestAllMenuSkill());
+        RcCommand.registerSkill(new UIQuestAllMenuSkill());
+        RcCommand.registerSkill(new UIQuestDailyMenuSkill());
+        RcCommand.registerSkill(new UIQuestEventMenuSkill());
+        RcCommand.registerSkill(new UIQuestFreeMenuSkill());
+        RcCommand.registerSkill(new UIQuestStoryMenuSkill());
+        RcCommand.registerSkill(new UISettingsSkill());
+        RcCommand.registerSkill(new UISocialMenuSkill());
     }
 
     @Override
@@ -84,7 +90,7 @@ public class RcCommand implements CommandExecutor, TabCompleter
             return true;
         }
 
-        RcCommandSkill skill = RcCommand.skills.get(args[0]);
+        IRcCommandSkill skill = RcCommand.skills.get(args[0]);
 
         if (! sender.isOp() && skill.isOPCommand())
         {

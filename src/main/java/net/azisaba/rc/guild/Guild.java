@@ -17,7 +17,7 @@ public class Guild
     public static Guild getInstance(String id)
     {
         ArrayList<Guild> filteredInstances = new ArrayList<>(Guild.instances.stream().filter(i -> i.getId().equals(id)).toList());
-        return filteredInstances.isEmpty() ? new Guild(id) : filteredInstances.get(0);
+        return filteredInstances.isEmpty() ? GuildUtil.exists(id) ? new Guild(id) : null : filteredInstances.get(0);
     }
 
     public static ArrayList<Guild> getInstances()

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.party;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.util.PartyUtil;
 import net.kyori.adventure.text.Component;
@@ -10,34 +10,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PartyJoinSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class PartyJoinSkill implements IRcCommandSkill
 {
 
-    public PartyJoinSkill()
+    @Override
+    public String getName()
     {
-        super("party:join");
-        this.opcmd = false;
+        return "party:join";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return false;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc party:join <party> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Party.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown party.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
@@ -45,11 +53,16 @@ public class PartyJoinSkill extends RcCommandSkill
         if (PartyUtil.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is already in a party.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Party party = Party.getInstance(args[0]);
         party.join(player);
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

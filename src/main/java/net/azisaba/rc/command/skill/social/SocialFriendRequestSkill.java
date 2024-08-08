@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.social;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -12,27 +12,36 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SocialFriendRequestSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class SocialFriendRequestSkill implements IRcCommandSkill
 {
 
-    public SocialFriendRequestSkill()
+    @Override
+    public String getName()
     {
-        super("social:friend-request");
+        return "social:friend-request";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc social:friend-request <from> <to>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[0]) == null || Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text("Player1 or 2 is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         final Player from = Bukkit.getPlayer(args[0]);
@@ -51,6 +60,11 @@ public class SocialFriendRequestSkill extends RcCommandSkill
         from.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE));
         from.sendMessage(to.displayName().append(Component.text(" に Friend 申請を送信しました").color(NamedTextColor.YELLOW)));
         from.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE));
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

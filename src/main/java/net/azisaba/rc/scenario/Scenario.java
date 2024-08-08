@@ -67,6 +67,11 @@ public class Scenario
         return this.tasks;
     }
 
+    public ScenarioTask getCurrentTask()
+    {
+        return this.tasks.get(this.progress - 1);
+    }
+
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         if (this.progress - 1 < this.tasks.size())

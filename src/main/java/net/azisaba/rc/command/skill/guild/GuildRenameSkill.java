@@ -9,40 +9,55 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class GuildRenameSkill extends AbstractTypingSkill
 {
     private Guild guild;
 
-    public GuildRenameSkill()
+    @Override
+    public String getName()
     {
-        super("guild:rename");
+        return "guild:rename";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc guild:rename <guild> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Guild.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown guild.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         this.guild = Guild.getInstance(args[0]);
         this.player = Bukkit.getPlayer(args[1]);
         this.player.closeInventory();
-        return super.onCommand(sender, command, label, args);
+        super.onCommand(sender, command, label, args);
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 
     @Override

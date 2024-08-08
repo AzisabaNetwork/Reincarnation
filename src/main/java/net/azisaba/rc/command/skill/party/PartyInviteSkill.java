@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.party;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.util.PartyUtil;
@@ -13,33 +13,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PartyInviteSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class PartyInviteSkill implements IRcCommandSkill
 {
 
-    public PartyInviteSkill()
+    @Override
+    public String getName()
     {
-        super("party:invite");
+        return "party:invite";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return true;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc party:invite <party> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Party.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown party.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
@@ -48,7 +57,7 @@ public class PartyInviteSkill extends RcCommandSkill
         if (PartyUtil.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is already in a party.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         player.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE));
@@ -65,6 +74,11 @@ public class PartyInviteSkill extends RcCommandSkill
         party.getMembers().forEach(m -> m.sendMessage(Component.text(CLI.SEPARATOR).color(NamedTextColor.BLUE)));
 
         party.getLeader().closeInventory();
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

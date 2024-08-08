@@ -49,7 +49,7 @@ public class HologramTask extends ScenarioTask
         rows.addAll(this.scenario.getEngine().getConfig().getStringList(this.name));
 
         this.hologram = new Hologram(rows.toArray(String[]::new));
-        Vector direction = player.getLocation().getDirection().normalize().multiply(6);
+        Vector direction = player.getLocation().getDirection().normalize().multiply(2);
         this.hologram.spawn(player.getLocation().add(direction), player);
     }
 }

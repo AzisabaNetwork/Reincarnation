@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.guild;
 
-import net.azisaba.rc.command.skill.RcCommandSkill;
+import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -10,34 +10,42 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GuildJoinSkill extends RcCommandSkill
+import java.util.ArrayList;
+
+public class GuildJoinSkill implements IRcCommandSkill
 {
 
-    public GuildJoinSkill()
+    @Override
+    public String getName()
     {
-        super("guild:join");
-        this.opcmd = false;
+        return "guild:join";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean isOPCommand()
+    {
+        return false;
+    }
+
+    @Override
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc guild:join <guild> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Guild.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown guild.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         Player player = Bukkit.getPlayer(args[1]);
@@ -46,7 +54,7 @@ public class GuildJoinSkill extends RcCommandSkill
         if (guild.isMember(player))
         {
             sender.sendMessage(Component.text("This player is already in a party.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         User user = User.getInstance(player);
@@ -57,6 +65,11 @@ public class GuildJoinSkill extends RcCommandSkill
         }
 
         guild.join(user);
-        return true;
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        return null;
     }
 }

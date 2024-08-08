@@ -13,36 +13,37 @@ public class GuildCloseSkill extends AbstractPowerSkill
 {
     private Guild guild;
 
-    public GuildCloseSkill()
+    @Override
+    public String getName()
     {
-        super("guild:close");
+        return "guild:close";
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         if (args.length != 2)
         {
             sender.sendMessage(Component.text("Correct syntax: /rc guild:close <guild> <player>").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Guild.getInstance(args[0]) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown guild.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         if (Bukkit.getServer().getPlayerExact(args[1]) == null)
         {
             sender.sendMessage(Component.text(args[1] + " is currently offline.").color(NamedTextColor.RED));
-            return true;
+            return;
         }
 
         this.guild = Guild.getInstance(args[0]);
         this.player = Bukkit.getPlayer(args[1]);
         this.player.closeInventory();
-        return super.onCommand(sender, command, label, args);
+        super.onCommand(sender, command, label, args);
     }
 
     @Override
