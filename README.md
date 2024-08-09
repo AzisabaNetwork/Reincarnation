@@ -9,9 +9,9 @@
 This is the core Paper plugin for Reincarnation.
 
 ```
-Version: 0.5.0
+Version: 0.5.1
 Minecraft Version: 1.17.1
-Database Server: MySQL 8.0
+Database Server: MariaDB 11.4.2
 ```
 
 ## Tables

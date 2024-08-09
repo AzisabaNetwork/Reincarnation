@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.Random;
 import java.util.UUID;
 
-public class GuildUtil
+public class GuildUtility
 {
 
     public static String getId()

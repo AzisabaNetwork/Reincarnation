@@ -5,11 +5,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SQLUtil
+public class SQLUtility
 {
 
     public static boolean test(String url, String user, String pass)
     {
+        try
+        {
+            Class.forName("org.mariadb.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            return false;
+        }
+
         try
         {
             Connection con = DriverManager.getConnection(url, user, pass);
@@ -22,6 +31,7 @@ public class SQLUtil
         }
         catch (SQLException e)
         {
+            System.out.println(e.getMessage());
             return false;
         }
     }

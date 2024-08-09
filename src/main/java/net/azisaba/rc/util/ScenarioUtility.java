@@ -7,7 +7,7 @@ import net.azisaba.rc.ui.CLI;
 import java.io.File;
 import java.util.logging.Level;
 
-public class ScenarioUtil
+public class ScenarioUtility
 {
 
     public static void mount()

@@ -2,7 +2,7 @@ package net.azisaba.rc.command.skill.party;
 
 import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -44,13 +44,13 @@ public class PartyQuitSkill implements IRcCommandSkill
 
         Player player = Bukkit.getPlayer(args[0]);
 
-        if (! PartyUtil.isPartyPlayer(player))
+        if (! PartyUtility.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is not in a party.").color(NamedTextColor.RED));
             return;
         }
 
-        Party party = PartyUtil.getParty(player);
+        Party party = PartyUtility.getParty(player);
         party.quit(player);
         player.closeInventory();
     }

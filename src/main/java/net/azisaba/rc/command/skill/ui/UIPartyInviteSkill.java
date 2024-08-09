@@ -2,7 +2,7 @@ package net.azisaba.rc.command.skill.ui;
 
 import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.ui.inventory.PartyInviteUI;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -43,7 +43,7 @@ public class UIPartyInviteSkill implements IRcCommandSkill
         }
 
         Player player = Bukkit.getPlayer(args[0]);
-        new PartyInviteUI(player, PartyUtil.getParty(player));
+        new PartyInviteUI(player, PartyUtility.getParty(player));
     }
 
     @Override

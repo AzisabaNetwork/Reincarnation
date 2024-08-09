@@ -2,7 +2,7 @@ package net.azisaba.rc.guild;
 
 import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.user.User;
-import net.azisaba.rc.util.GuildUtil;
+import net.azisaba.rc.util.GuildUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class Guild
     public static Guild getInstance(String id)
     {
         ArrayList<Guild> filteredInstances = new ArrayList<>(Guild.instances.stream().filter(i -> i.getId().equals(id)).toList());
-        return filteredInstances.isEmpty() ? GuildUtil.exists(id) ? new Guild(id) : null : filteredInstances.get(0);
+        return filteredInstances.isEmpty() ? GuildUtility.exists(id) ? new Guild(id) : null : filteredInstances.get(0);
     }
 
     public static ArrayList<Guild> getInstances()
@@ -80,7 +80,7 @@ public class Guild
 
     public Guild(String name, User master)
     {
-        this.id = GuildUtil.getId();
+        this.id = GuildUtility.getId();
         this.name = name;
         this.master = master;
         this.exp = 0;

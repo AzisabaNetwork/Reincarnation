@@ -3,7 +3,7 @@ package net.azisaba.rc.command.skill.quest;
 import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.user.User;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -53,7 +53,7 @@ public class QuestUnlockSkill implements IRcCommandSkill
 
         Player player = Bukkit.getPlayer(args[0]);
 
-        if (! PartyUtil.isPartyPlayer(player))
+        if (! PartyUtility.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is not a party member.").color(NamedTextColor.RED));
             return;

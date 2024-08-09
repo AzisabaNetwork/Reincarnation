@@ -48,23 +48,23 @@ public final class Reincarnation extends JavaPlugin
         Reincarnation.DB_USER = this.getConfig().getString("database.user");
         Reincarnation.DB_PASS = this.getConfig().getString("database.pass");
 
-        if (! SQLUtil.test(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS))
+        if (! SQLUtility.test(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS))
         {
             this.getLogger().warning(CLI.RED + "Database connection test failed. Please check config.yml." + CLI.END);
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        if (! QuestUtil.mount())
+        if (! QuestUtility.mount())
         {
             this.getLogger().warning("Failed to mount quest engine.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        GuildUtil.mount();
-        UserUtil.mount();
-        ScenarioUtil.mount();
+        GuildUtility.mount();
+        UserUtility.mount();
+        ScenarioUtility.mount();
 
         new DailyQuestShakeTask().runTaskLater(this, DailyQuestShakeTask.getLaterTicks());
         DailyQuests.shuffle();

@@ -3,7 +3,7 @@ package net.azisaba.rc.user;
 import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.quest.QuestEngine;
-import net.azisaba.rc.util.UserUtil;
+import net.azisaba.rc.util.UserUtility;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -20,7 +20,7 @@ public class User
     public static User getInstance(String id)
     {
         ArrayList<User> filteredInstances = new ArrayList<>(User.instances.stream().filter(i -> i.getId().equals(id)).toList());
-        return filteredInstances.isEmpty() ? UserUtil.exists(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
+        return filteredInstances.isEmpty() ? UserUtility.exists(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
     }
 
     public static User getInstance(Player player)

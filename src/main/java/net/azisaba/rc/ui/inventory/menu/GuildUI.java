@@ -2,7 +2,7 @@ package net.azisaba.rc.ui.inventory.menu;
 
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.user.User;
-import net.azisaba.rc.util.GuildUtil;
+import net.azisaba.rc.util.GuildUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -38,7 +38,7 @@ public class GuildUI extends GameMenuUI
             newGuildMeta.lore(Collections.singletonList(Component.text("ギルドを創設する").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             newGuildMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             newGuildStack.setItemMeta(newGuildMeta);
-            this.register(31, newGuildStack, String.format("rc guild:create %s %s", GuildUtil.getTemporaryName(), player.getName()));
+            this.register(31, newGuildStack, String.format("rc guild:create %s %s", GuildUtility.getTemporaryName(), player.getName()));
 
             ItemStack closeStack = new ItemStack(Material.COMPASS);
             ItemMeta closeMeta = closeStack.getItemMeta();

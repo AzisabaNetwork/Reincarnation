@@ -1,7 +1,7 @@
 package net.azisaba.rc.quest;
 
-import net.azisaba.rc.util.PartyUtil;
-import net.azisaba.rc.util.UserUtil;
+import net.azisaba.rc.util.PartyUtility;
+import net.azisaba.rc.util.UserUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class Party
 
     public Party(Player leader)
     {
-        this.id = PartyUtil.getId();
+        this.id = PartyUtility.getId();
         this.leader = leader;
         this.members.add(this.leader);
 
@@ -117,7 +117,7 @@ public class Party
 
         if (this.quest != null)
         {
-            UserUtil.sidePanel(player);
+            UserUtility.sidePanel(player);
         }
     }
 

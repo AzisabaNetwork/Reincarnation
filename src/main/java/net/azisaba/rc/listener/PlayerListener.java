@@ -7,8 +7,8 @@ import net.azisaba.rc.scenario.Scenario;
 import net.azisaba.rc.scenario.task.ScenarioTask;
 import net.azisaba.rc.scenario.task.SelectTask;
 import net.azisaba.rc.user.User;
-import net.azisaba.rc.util.PartyUtil;
-import net.azisaba.rc.util.UserUtil;
+import net.azisaba.rc.util.PartyUtility;
+import net.azisaba.rc.util.UserUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -30,7 +30,7 @@ public class PlayerListener implements Listener
         player.displayName(user.getRankedName());
         player.playerListName(user.getRankedName());
 
-        UserUtil.sidePanel(player);
+        UserUtility.sidePanel(player);
     }
 
     @EventHandler
@@ -38,9 +38,9 @@ public class PlayerListener implements Listener
     {
         Player player = event.getPlayer();
 
-        if (PartyUtil.isPartyPlayer(player))
+        if (PartyUtility.isPartyPlayer(player))
         {
-            PartyUtil.getParty(player).quit(player);
+            PartyUtility.getParty(player).quit(player);
         }
     }
 

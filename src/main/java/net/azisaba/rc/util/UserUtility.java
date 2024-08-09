@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.sql.*;
 import java.util.Date;
 
-public class UserUtil
+public class UserUtility
 {
 
     public static boolean exists(String id)

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class PartyUtil
+public class PartyUtility
 {
 
     public static String getId()
@@ -31,6 +31,6 @@ public class PartyUtil
 
     public static boolean isPartyPlayer(Player player)
     {
-        return PartyUtil.getParty(player) != null;
+        return PartyUtility.getParty(player) != null;
     }
 }

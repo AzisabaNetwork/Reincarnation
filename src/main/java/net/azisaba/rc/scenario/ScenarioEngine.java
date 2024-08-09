@@ -1,7 +1,7 @@
 package net.azisaba.rc.scenario;
 
 import net.azisaba.rc.scenario.task.*;
-import net.azisaba.rc.util.ResourceUtil;
+import net.azisaba.rc.util.ResourceUtility;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,7 +57,7 @@ public class ScenarioEngine
     public ScenarioEngine(String name)
     {
         this.name = name;
-        this.config = ResourceUtil.getYamlResource(String.format("/scenarios/%s", name));
+        this.config = ResourceUtility.getYamlResource(String.format("/scenarios/%s", name));
 
         for (String key : this.config.getKeys(false))
         {

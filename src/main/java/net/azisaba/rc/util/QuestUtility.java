@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class QuestUtil
+public class QuestUtility
 {
 
     public static String getId()
@@ -34,7 +34,7 @@ public class QuestUtil
             return false;
         }
 
-        YamlConfiguration config = ResourceUtil.getYamlResource("/quests/" + name);
+        YamlConfiguration config = ResourceUtility.getYamlResource("/quests/" + name);
 
         ArrayList<String> requiredParameters = new ArrayList<>();
         requiredParameters.add("Display");
@@ -83,7 +83,7 @@ public class QuestUtil
         {
             if (config.isFile())
             {
-                if (! QuestUtil.test(config.getName()))
+                if (! QuestUtility.test(config.getName()))
                 {
                     Reincarnation.getPlugin().getServer().getPluginManager().disablePlugin(Reincarnation.getPlugin());
                     return false;

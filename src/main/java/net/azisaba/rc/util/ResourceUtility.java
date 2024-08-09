@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class ResourceUtil
+public class ResourceUtility
 {
 
     public static File getResource(String name)
@@ -16,14 +16,14 @@ public class ResourceUtil
 
     public static YamlConfiguration getYamlResource(String name)
     {
-        return YamlConfiguration.loadConfiguration(ResourceUtil.getResource(name));
+        return YamlConfiguration.loadConfiguration(ResourceUtility.getResource(name));
     }
 
     public static void save(String name, YamlConfiguration resource)
     {
         try
         {
-            resource.save(ResourceUtil.getResource(name));
+            resource.save(ResourceUtility.getResource(name));
         }
         catch (IOException e)
         {

@@ -1,6 +1,6 @@
 package net.azisaba.rc.scenario.hologram;
 
-import net.azisaba.rc.util.NMSUtil;
+import net.azisaba.rc.util.NMSUtility;
 import net.minecraft.network.chat.IChatBaseComponent;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityMetadata;
@@ -40,10 +40,10 @@ public class Hologram
             stand.setCustomNameVisible(true);
 
             PacketPlayOutSpawnEntity packet = new PacketPlayOutSpawnEntity(stand);
-            NMSUtil.sendPacket(viewer, packet);
+            NMSUtility.sendPacket(viewer, packet);
 
             PacketPlayOutEntityMetadata packet2 = new PacketPlayOutEntityMetadata(stand.getId(), stand.getDataWatcher(), true);
-            NMSUtil.sendPacket(viewer, packet2);
+            NMSUtility.sendPacket(viewer, packet2);
 
             location.subtract(0, 0.25, 0);
             this.stands.add(stand);
@@ -55,7 +55,7 @@ public class Hologram
         for (EntityArmorStand stand : this.stands)
         {
             PacketPlayOutEntityDestroy packet = new PacketPlayOutEntityDestroy(stand.getId());
-            NMSUtil.sendPacket(player, packet);
+            NMSUtility.sendPacket(player, packet);
         }
     }
 }

@@ -1,7 +1,7 @@
 package net.azisaba.rc.ui.inventory.menu;
 
 import net.azisaba.rc.quest.Party;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -26,7 +26,7 @@ public class PartyUI extends GameMenuUI
         this.addSeparator();
         this.setFocusedTab(3);
 
-        if (! PartyUtil.isPartyPlayer(player))
+        if (! PartyUtility.isPartyPlayer(player))
         {
             ItemStack newPartyStack = new ItemStack(Material.IRON_SWORD);
             ItemMeta newPartyMeta = newPartyStack.getItemMeta();
@@ -45,7 +45,7 @@ public class PartyUI extends GameMenuUI
             return;
         }
 
-        Party party = PartyUtil.getParty(player);
+        Party party = PartyUtility.getParty(player);
 
         ItemStack leaderStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta leaderMeta = (SkullMeta) leaderStack.getItemMeta();

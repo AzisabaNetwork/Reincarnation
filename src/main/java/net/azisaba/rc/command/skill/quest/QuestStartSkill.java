@@ -4,7 +4,7 @@ import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.quest.Quest;
 import net.azisaba.rc.quest.QuestEngine;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -51,7 +51,7 @@ public class QuestStartSkill implements IRcCommandSkill
         }
 
         Player player = Bukkit.getPlayer(args[1]);
-        Party party = PartyUtil.isPartyPlayer(player) ? PartyUtil.getParty(player) : new Party(player);
+        Party party = PartyUtility.isPartyPlayer(player) ? PartyUtility.getParty(player) : new Party(player);
 
         if (party.getLeader() != player)
         {

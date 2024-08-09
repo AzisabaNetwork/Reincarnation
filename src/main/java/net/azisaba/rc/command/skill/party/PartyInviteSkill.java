@@ -3,7 +3,7 @@ package net.azisaba.rc.command.skill.party;
 import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.ui.CLI;
-import net.azisaba.rc.util.PartyUtil;
+import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -54,7 +54,7 @@ public class PartyInviteSkill implements IRcCommandSkill
         Player player = Bukkit.getPlayer(args[1]);
         Party party = Party.getInstance(args[0]);
 
-        if (PartyUtil.isPartyPlayer(player))
+        if (PartyUtility.isPartyPlayer(player))
         {
             sender.sendMessage(Component.text("This player is already in a party.").color(NamedTextColor.RED));
             return;

@@ -4,12 +4,11 @@ import net.azisaba.rc.Reincarnation;
 import net.azisaba.rc.ui.AnimationBuilder;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.ui.SidePanel;
-import net.azisaba.rc.util.QuestUtil;
-import net.azisaba.rc.util.UserUtil;
+import net.azisaba.rc.util.QuestUtility;
+import net.azisaba.rc.util.UserUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -18,7 +17,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class Quest
@@ -45,7 +43,7 @@ public class Quest
 
     public Quest(QuestEngine engine, Party party)
     {
-        this.id = QuestUtil.getId();
+        this.id = QuestUtility.getId();
         this.engine = engine;
         this.party = party;
         this.panel = new SidePanel();
@@ -143,7 +141,7 @@ public class Quest
     public void end()
     {
         this.party.getMembers().forEach(this.panel::removePlayer);
-        this.party.getMembers().forEach(UserUtil::sidePanel);
+        this.party.getMembers().forEach(UserUtility::sidePanel);
         this.party.setQuest(null);
 
         for (Player member : this.party.getMembers())
