@@ -2,6 +2,7 @@ package net.azisaba.rc.util;
 
 import net.azisaba.rc.quest.Party;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.UUID;

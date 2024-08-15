@@ -60,6 +60,13 @@ public class GuildQuitSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        return null;
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

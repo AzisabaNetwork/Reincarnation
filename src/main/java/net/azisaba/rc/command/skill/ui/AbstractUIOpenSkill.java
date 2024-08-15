@@ -57,13 +57,13 @@ public abstract class AbstractUIOpenSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> suggest = new ArrayList<>();
 
         if (args.length == 1)
         {
-            Bukkit.getOnlinePlayers().forEach(p -> list.add(p.getName()));
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
         }
 
-        return list;
+        return suggest;
     }
 }

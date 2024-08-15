@@ -34,13 +34,13 @@ public class QuestStartSkill implements IRcCommandSkill
     {
         if (args.length != 2)
         {
-            sender.sendMessage(Component.text("Correct syntax: /rc quest:start <quest> <player>").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Correct syntax: /rc quest:start <quest engine> <player>").color(NamedTextColor.RED));
             return;
         }
 
         if (QuestEngine.getInstance(args[0]) == null)
         {
-            sender.sendMessage(Component.text(args[0] + " is an unknown quest.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text(args[0] + " is an unknown quest engine.").color(NamedTextColor.RED));
             return;
         }
 
@@ -66,6 +66,18 @@ public class QuestStartSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        return null;
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            QuestEngine.getInstances().forEach(e -> suggest.add(e.getId()));
+        }
+
+        if (args.length == 2)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

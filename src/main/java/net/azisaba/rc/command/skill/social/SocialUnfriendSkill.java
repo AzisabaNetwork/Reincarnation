@@ -1,6 +1,7 @@
 package net.azisaba.rc.command.skill.social;
 
 import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.quest.QuestEngine;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -56,6 +57,18 @@ public class SocialUnfriendSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        return null;
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        if (args.length == 2)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

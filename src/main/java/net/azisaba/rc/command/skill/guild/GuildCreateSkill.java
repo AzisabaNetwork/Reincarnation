@@ -73,6 +73,18 @@ public class GuildCreateSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        return null;
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            suggest.add("Guild name…");
+        }
+
+        if (args.length == 2)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

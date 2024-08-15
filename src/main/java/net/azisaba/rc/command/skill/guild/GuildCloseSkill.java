@@ -9,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class GuildCloseSkill extends AbstractPowerSkill
 {
     private Guild guild;
@@ -65,5 +67,23 @@ public class GuildCloseSkill extends AbstractPowerSkill
     public void onForbid()
     {
         this.player.sendMessage(Component.text("Guild の解散をキャンセルしました").color(NamedTextColor.GREEN));
+    }
+
+    @Override
+    public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
+    {
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            Guild.getInstances().forEach(g -> suggest.add(g.getId()));
+        }
+
+        if (args.length == 2)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

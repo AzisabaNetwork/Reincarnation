@@ -4,6 +4,7 @@ import net.azisaba.rc.command.skill.IRcCommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -29,7 +30,7 @@ public class PartyCloseSkill implements IRcCommandSkill
     {
         if (args.length != 1)
         {
-            sender.sendMessage(Component.text("Correct syntax: /rc ui:close <party>").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Correct syntax: /rc party:close <party>").color(NamedTextColor.RED));
             return;
         }
 
@@ -48,6 +49,13 @@ public class PartyCloseSkill implements IRcCommandSkill
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        return null;
+        ArrayList<String> suggest = new ArrayList<>();
+
+        if (args.length == 1)
+        {
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+        }
+
+        return suggest;
     }
 }

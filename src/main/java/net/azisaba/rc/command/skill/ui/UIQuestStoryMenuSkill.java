@@ -13,6 +13,6 @@ public class UIQuestStoryMenuSkill extends AbstractUIOpenSkill
     @Override
     public String getName()
     {
-        return "quest-story";
+        return "ui:quest-story";
     }
 }
