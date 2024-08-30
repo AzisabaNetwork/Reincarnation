@@ -2,9 +2,8 @@ package net.azisaba.rc.command.skill.ui;
 
 import net.azisaba.rc.ui.inventory.quest.QuestDailyMenuUI;
 
-public class UIQuestDailyMenuSkill extends AbstractUIOpenSkill
+public class UIQuestDailyMenuSkill extends UISkill
 {
-
     public UIQuestDailyMenuSkill()
     {
         super(QuestDailyMenuUI.class);

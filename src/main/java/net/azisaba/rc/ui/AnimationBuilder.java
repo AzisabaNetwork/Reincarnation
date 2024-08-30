@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 public class AnimationBuilder
 {
-
     public static Component[] GAMING(String src)
     {
         NamedTextColor[] colors = {NamedTextColor.RED, NamedTextColor.YELLOW, NamedTextColor.GREEN, NamedTextColor.AQUA, NamedTextColor.BLUE, NamedTextColor.DARK_PURPLE, NamedTextColor.LIGHT_PURPLE};

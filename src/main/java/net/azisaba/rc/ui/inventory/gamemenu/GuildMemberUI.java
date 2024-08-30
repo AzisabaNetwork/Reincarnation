@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.inventory.PlayerSelectorUI;
@@ -32,7 +32,7 @@ public class GuildMemberUI extends PlayerSelectorUI
             inviteMeta.displayName(Component.text("探索").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
             inviteMeta.lore(Collections.singletonList(Component.text("Guild に新しいプレイヤーを招待する").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false)));
             inviteStack.setItemMeta(inviteMeta);
-            this.register(49, inviteStack, String.format("rc ui:guild-invite %s %s", player.getName(), this.guild.getId()));
+            this.addListener(49, inviteStack, String.format("rc ui:guild-invite %s %s", player.getName(), this.guild.getId()));
         }
 
         this.draw(this.p);

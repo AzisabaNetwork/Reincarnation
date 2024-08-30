@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 public abstract class ScenarioTask
 {
-
     public static Pattern getPattern()
     {
         return Pattern.compile("");

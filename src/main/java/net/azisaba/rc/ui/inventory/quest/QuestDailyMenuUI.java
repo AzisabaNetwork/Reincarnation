@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 
 public class QuestDailyMenuUI extends QuestMenuUI
 {
-
     public QuestDailyMenuUI(Player player)
     {
         super(player);

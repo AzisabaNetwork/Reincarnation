@@ -6,6 +6,7 @@
 
 package net.azisaba.rc;
 
+import net.azisaba.jg.sdk.JunkGame;
 import net.azisaba.rc.command.RcCommand;
 import net.azisaba.rc.listener.InventoryListener;
 import net.azisaba.rc.listener.PlayerListener;
@@ -13,12 +14,19 @@ import net.azisaba.rc.quest.DailyQuests;
 import net.azisaba.rc.scheduler.DailyQuestShakeTask;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.util.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public final class Reincarnation extends JavaPlugin
+public final class Reincarnation extends JunkGame
 {
     private static Reincarnation plugin;
 
@@ -31,6 +39,24 @@ public final class Reincarnation extends JavaPlugin
     public static Reincarnation getPlugin()
     {
         return Reincarnation.plugin;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName()
+    {
+        return Component.text("Reincarnation").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD);
+    }
+
+    @Override
+    public @NotNull Material getFavicon()
+    {
+        return Material.GOLD_INGOT;
+    }
+
+    @Override
+    public ArrayList<Component> getLore()
+    {
+        return new ArrayList<>(List.of(Component.text("PvE").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
     }
 
     @Override
@@ -48,7 +74,7 @@ public final class Reincarnation extends JavaPlugin
         Reincarnation.DB_USER = this.getConfig().getString("database.user");
         Reincarnation.DB_PASS = this.getConfig().getString("database.pass");
 
-        if (! SQLUtility.test(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS))
+        if (! SqlUtility.test(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS))
         {
             this.getLogger().warning(CLI.RED + "Database connection test failed. Please check config.yml." + CLI.END);
             this.getServer().getPluginManager().disablePlugin(this);
@@ -68,5 +94,11 @@ public final class Reincarnation extends JavaPlugin
 
         new DailyQuestShakeTask().runTaskLater(this, DailyQuestShakeTask.getLaterTicks());
         DailyQuests.shuffle();
+    }
+
+    @Override
+    public void onJunkGameCommand(Player player)
+    {
+
     }
 }

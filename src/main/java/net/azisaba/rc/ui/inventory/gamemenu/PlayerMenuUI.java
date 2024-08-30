@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -15,13 +15,13 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 
-public abstract class AbstractPlayerMenuUI extends GameMenuUI
+public abstract class PlayerMenuUI extends GameMenuUI
 {
     protected int j1 = 0;
     protected int j2 = 36;
     protected int p = 0;
 
-    public AbstractPlayerMenuUI(Player player, Component title)
+    public PlayerMenuUI(Player player, Component title)
     {
         super(player, title);
 
@@ -45,7 +45,7 @@ public abstract class AbstractPlayerMenuUI extends GameMenuUI
 
     public ItemStack getPlayerStack(OfflinePlayer player)
     {
-        User user = User.getInstance(player.getUniqueId().toString());
+        User user = User.getInstance(player.getUniqueId());
 
         ItemStack playerStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta playerMeta = (SkullMeta) playerStack.getItemMeta();
@@ -61,9 +61,9 @@ public abstract class AbstractPlayerMenuUI extends GameMenuUI
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent event)
+    public void onClick(InventoryClickEvent event)
     {
-        super.onInventoryClick(event);
+        super.onClick(event);
 
         if (event.getSlot() == 45)
         {
@@ -100,7 +100,7 @@ public abstract class AbstractPlayerMenuUI extends GameMenuUI
             }
             else
             {
-                this.register(index, this.getPlayerStack(player), command);
+                this.addListener(index, this.getPlayerStack(player), command);
             }
 
             index ++;

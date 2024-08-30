@@ -1,24 +1,24 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
-import net.azisaba.rc.ui.inventory.SocialMenuUI;
+import net.azisaba.rc.command.skill.ICommandSkill;
+import net.azisaba.rc.ui.inventory.InventoryUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class UISocialMenuSkill implements IRcCommandSkill
+public abstract class UISkill implements ICommandSkill
 {
+    protected final Class<? extends InventoryUI> clazz;
 
-    @Override
-    public String getName()
+    public UISkill(Class<? extends InventoryUI> clazz)
     {
-        return "ui:social-menu";
+        this.clazz = clazz;
     }
 
     @Override
@@ -30,9 +30,9 @@ public class UISocialMenuSkill implements IRcCommandSkill
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        if (args.length != 2)
+        if (args.length != 1)
         {
-            sender.sendMessage(Component.text(String.format("Correct syntax: /rc %s <player> <view>", this.getName())).color(NamedTextColor.RED));
+            sender.sendMessage(Component.text(String.format("Correct syntax: /rc %s <player>", this.getName())).color(NamedTextColor.RED));
             return;
         }
 
@@ -43,21 +43,27 @@ public class UISocialMenuSkill implements IRcCommandSkill
         }
 
         Player player = Bukkit.getPlayer(args[0]);
-        OfflinePlayer view = Bukkit.getOfflinePlayer(args[1]);
 
-        new SocialMenuUI(player, view);
+        try
+        {
+            this.clazz.getConstructor(Player.class).newInstance(player);
+        }
+        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> suggest = new ArrayList<>();
 
         if (args.length == 1)
         {
-            Bukkit.getOnlinePlayers().forEach(p -> list.add(p.getName()));
+            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
         }
 
-        return list;
+        return suggest;
     }
 }

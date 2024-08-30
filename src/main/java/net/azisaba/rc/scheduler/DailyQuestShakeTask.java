@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 
 public class DailyQuestShakeTask extends BukkitRunnable
 {
-
     public static long getLaterTicks()
     {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());

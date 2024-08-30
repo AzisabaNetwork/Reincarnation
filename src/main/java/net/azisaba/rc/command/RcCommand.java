@@ -1,6 +1,6 @@
 package net.azisaba.rc.command;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.command.skill.guild.*;
 import net.azisaba.rc.command.skill.party.*;
 import net.azisaba.rc.command.skill.quest.QuestProgressionSkill;
@@ -24,9 +24,9 @@ import java.util.List;
 
 public class RcCommand implements CommandExecutor, TabCompleter
 {
-    public static final HashMap<String, IRcCommandSkill> skills = new HashMap<>();
+    public static final HashMap<String, ICommandSkill> skills = new HashMap<>();
 
-    public static void registerSkill(IRcCommandSkill skill)
+    public static void registerSkill(ICommandSkill skill)
     {
         RcCommand.skills.put(skill.getName(), skill);
     }
@@ -64,7 +64,7 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.registerSkill(new UIGuildMemberSkill());
         RcCommand.registerSkill(new UIPartySkill());
         RcCommand.registerSkill(new UIPartyInviteSkill());
-        RcCommand.registerSkill(new UIProfileSkill());
+        RcCommand.registerSkill(new UIMyProfileSkill());
         RcCommand.registerSkill(new UIQuestAllMenuSkill());
         RcCommand.registerSkill(new UIQuestAllMenuSkill());
         RcCommand.registerSkill(new UIQuestDailyMenuSkill());
@@ -72,7 +72,7 @@ public class RcCommand implements CommandExecutor, TabCompleter
         RcCommand.registerSkill(new UIQuestFreeMenuSkill());
         RcCommand.registerSkill(new UIQuestStoryMenuSkill());
         RcCommand.registerSkill(new UISettingsSkill());
-        RcCommand.registerSkill(new UISocialMenuSkill());
+        RcCommand.registerSkill(new UIProfileSkill());
     }
 
     @Override
@@ -90,7 +90,7 @@ public class RcCommand implements CommandExecutor, TabCompleter
             return true;
         }
 
-        IRcCommandSkill skill = RcCommand.skills.get(args[0]);
+        ICommandSkill skill = RcCommand.skills.get(args[0]);
 
         if (! sender.isOp() && skill.isOPCommand())
         {

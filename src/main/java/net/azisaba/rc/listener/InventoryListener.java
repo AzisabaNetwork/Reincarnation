@@ -1,6 +1,6 @@
 package net.azisaba.rc.listener;
 
-import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
+import net.azisaba.rc.ui.inventory.InventoryUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,21 +12,20 @@ import java.util.Map;
 
 public class InventoryListener implements Listener
 {
-
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event)
     {
         Inventory inventory = event.getClickedInventory();
         Player player = (Player) event.getWhoClicked();
 
-        if (AbstractInventoryUI.getInstances().containsValue(player.getOpenInventory().getTopInventory()))
+        if (InventoryUI.getInstances().containsValue(player.getOpenInventory().getTopInventory()))
         {
             event.setCancelled(true);
 
-            if (AbstractInventoryUI.getInstances().containsValue(inventory))
+            if (InventoryUI.getInstances().containsValue(inventory))
             {
-                Map.Entry<AbstractInventoryUI, Inventory> entry = AbstractInventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
-                entry.getKey().onInventoryClick(event);
+                Map.Entry<InventoryUI, Inventory> entry = InventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
+                entry.getKey().onClick(event);
             }
         }
     }
@@ -36,10 +35,10 @@ public class InventoryListener implements Listener
     {
         Inventory inventory = event.getInventory();
 
-        if (AbstractInventoryUI.getInstances().containsValue(inventory))
+        if (InventoryUI.getInstances().containsValue(inventory))
         {
-            Map.Entry<AbstractInventoryUI, Inventory> entry = AbstractInventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
-            entry.getKey().onInventoryClose(event);
+            Map.Entry<InventoryUI, Inventory> entry = InventoryUI.getInstances().entrySet().stream().filter(i -> i.getValue() == inventory).toList().get(0);
+            entry.getKey().onClose(event);
         }
     }
 }

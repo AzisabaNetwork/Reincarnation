@@ -1,7 +1,7 @@
 package net.azisaba.rc.ui.inventory.quest;
 
 import net.azisaba.rc.quest.QuestEngine;
-import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
+import net.azisaba.rc.ui.inventory.InventoryUI;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public abstract class QuestMenuUI extends AbstractInventoryUI
+public abstract class QuestMenuUI extends InventoryUI
 {
     private final ArrayList<QuestEngine> quests = new ArrayList<>();
     protected int page = 0;
@@ -32,35 +32,35 @@ public abstract class QuestMenuUI extends AbstractInventoryUI
         meta2.displayName(Component.text("すべて").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta2.lore(Collections.singletonList(Component.text("現在受注可能なすべて").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack2.setItemMeta(meta2);
-        this.register(2, stack2, "rc ui:quest-all " + player.getName());
+        this.addListener(2, stack2, "rc ui:quest-all " + player.getName());
 
         ItemStack stack3 = new ItemStack(Material.SPYGLASS);
         ItemMeta meta3 = stack3.getItemMeta();
         meta3.displayName(Component.text("ストーリー").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta3.lore(Collections.singletonList(Component.text("Reincarnation のストーリーに関わる").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack3.setItemMeta(meta3);
-        this.register(3, stack3, "rc ui:quest-story " + player.getName());
+        this.addListener(3, stack3, "rc ui:quest-story " + player.getName());
 
         ItemStack stack4 = new ItemStack(Material.CLOCK);
         ItemMeta meta4 = stack4.getItemMeta();
         meta4.displayName(Component.text("デイリー").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta4.lore(Collections.singletonList(Component.text("午前4時にリセットされる…").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack4.setItemMeta(meta4);
-        this.register(4, stack4, "rc ui:quest-daily " + player.getName());
+        this.addListener(4, stack4, "rc ui:quest-daily " + player.getName());
 
         ItemStack stack5 = new ItemStack(Material.DIAMOND);
         ItemMeta meta5 = stack5.getItemMeta();
         meta5.displayName(Component.text("イベント").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta5.lore(Collections.singletonList(Component.text("期間限定クエスト!!").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false)));
         stack5.setItemMeta(meta5);
-        this.register(5, stack5, "rc ui:quest-event " + player.getName());
+        this.addListener(5, stack5, "rc ui:quest-event " + player.getName());
 
         ItemStack stack6 = new ItemStack(Material.WHEAT);
         ItemMeta meta6 = stack6.getItemMeta();
         meta6.displayName(Component.text("フリー").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta6.lore(Collections.singletonList(Component.text("その他のクエスト").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack6.setItemMeta(meta6);
-        this.register(6, stack6, "rc ui:quest-free " + player.getName());
+        this.addListener(6, stack6, "rc ui:quest-free " + player.getName());
 
         ItemStack backStack = new ItemStack(Material.ARROW);
         ItemMeta backMeta = backStack.getItemMeta();
@@ -143,7 +143,7 @@ public abstract class QuestMenuUI extends AbstractInventoryUI
             questMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
             questStack.setItemMeta(questMeta);
-            this.register(y * 9 + x, questStack, String.format("rc quest:start %s %s", quest.getId(), player.getName()));
+            this.addListener(y * 9 + x, questStack, String.format("rc quest:start %s %s", quest.getId(), player.getName()));
 
             if (x == 6)
             {
@@ -158,9 +158,9 @@ public abstract class QuestMenuUI extends AbstractInventoryUI
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent event)
+    public void onClick(InventoryClickEvent event)
     {
-        super.onInventoryClick(event);
+        super.onClick(event);
 
         if (event.getSlot() == 28)
         {

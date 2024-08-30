@@ -1,10 +1,9 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.ui.inventory.menu.GuildUI;
+import net.azisaba.rc.ui.inventory.gamemenu.GuildUI;
 
-public class UIGuildSkill extends AbstractUIOpenSkill
+public class UIGuildSkill extends UISkill
 {
-
     public UIGuildSkill()
     {
         super(GuildUI.class);

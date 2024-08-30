@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public class QuestUtility
 {
-
     public static String getId()
     {
         String id = null;

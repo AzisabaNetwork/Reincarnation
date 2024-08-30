@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.util.PartyUtility;
@@ -18,10 +18,9 @@ import java.util.Collections;
 
 public class PartyUI extends GameMenuUI
 {
-
     public PartyUI(Player player)
     {
-        super(player, Component.text("パーティー"));
+        super(player, Component.text("Party"));
 
         this.addSeparator();
         this.setFocusedTab(3);
@@ -34,13 +33,13 @@ public class PartyUI extends GameMenuUI
             newPartyMeta.lore(Collections.singletonList(Component.text("新しいパーティーをホストします").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             newPartyMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             newPartyStack.setItemMeta(newPartyMeta);
-            this.register(31, newPartyStack, "rc party:create " + player.getName());
+            this.addListener(31, newPartyStack, "rc party:create " + player.getName());
 
             ItemStack closeStack = new ItemStack(Material.BARRIER);
             ItemMeta closeMeta = closeStack.getItemMeta();
             closeMeta.displayName(Component.text("閉じる").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
             closeStack.setItemMeta(closeMeta);
-            this.register(49, closeStack, "rc ui:close " + player.getName());
+            this.addListener(49, closeStack, "rc ui:close " + player.getName());
 
             return;
         }
@@ -69,7 +68,7 @@ public class PartyUI extends GameMenuUI
             closeMeta.displayName(Component.text("Party を解散する").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
             closeMeta.lore(Collections.singletonList(Component.text("クエストが進行中の場合は、クエストも終了されます").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             closeStack.setItemMeta(closeMeta);
-            this.register(20, closeStack, "rc party:close " + party.getId());
+            this.addListener(20, closeStack, "rc party:close " + party.getId());
         }
 
         int index = 27;
@@ -97,14 +96,14 @@ public class PartyUI extends GameMenuUI
                 kickLore.add(Component.text("このプレイヤーには Party は解散されたと表示されます…").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
                 kickMeta.lore(kickLore);
                 kickStack.setItemMeta(kickMeta);
-                this.register(index + 1, kickStack, "rc party:kick " + party.getId() + " " + member.getName());
+                this.addListener(index + 1, kickStack, "rc party:kick " + party.getId() + " " + member.getName());
 
                 ItemStack assignmentStack = new ItemStack(Material.DIAMOND_HELMET);
                 ItemMeta assignmentMeta = assignmentStack.getItemMeta();
                 assignmentMeta.displayName(Component.text("Party を譲渡").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
                 assignmentMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 assignmentStack.setItemMeta(assignmentMeta);
-                this.register(index + 2, assignmentStack, "rc party:assignment " + party.getId() + " " + member.getName());
+                this.addListener(index + 2, assignmentStack, "rc party:assignment " + party.getId() + " " + member.getName());
             }
             else if (member == this.player)
             {
@@ -113,7 +112,7 @@ public class PartyUI extends GameMenuUI
                 quitMeta.displayName(Component.text("Party を退出").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
                 quitMeta.lore(Collections.singletonList(Component.text("Party を離脱します…").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
                 quitStack.setItemMeta(quitMeta);
-                this.register(index + 1, quitStack, "rc party:quit " + player.getName());
+                this.addListener(index + 1, quitStack, "rc party:quit " + player.getName());
             }
 
             index += 9;
@@ -126,7 +125,7 @@ public class PartyUI extends GameMenuUI
             inviteMeta.displayName(Component.text("プレイヤーを招待").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
             inviteMeta.lore(Collections.singletonList(Component.text("または…任意のプレイヤーを招待可能！").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             inviteStack.setItemMeta(inviteMeta);
-            this.register(index, inviteStack, "rc ui:party-invite " + player.getName());
+            this.addListener(index, inviteStack, "rc ui:party-invite " + player.getName());
         }
     }
 }

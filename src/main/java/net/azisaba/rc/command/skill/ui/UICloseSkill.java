@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -10,9 +10,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class UICloseSkill implements IRcCommandSkill
+public class UICloseSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

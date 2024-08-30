@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.user.User;
@@ -16,14 +16,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.UUID;
 
 public class GuildUI extends GameMenuUI
 {
-
     public GuildUI(Player player)
     {
-        super(player, Component.text("ギルド"));
+        super(player, Component.text("Guild"));
 
         this.addSeparator();
         this.setFocusedTab(4);
@@ -38,14 +36,14 @@ public class GuildUI extends GameMenuUI
             newGuildMeta.lore(Collections.singletonList(Component.text("ギルドを創設する").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             newGuildMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             newGuildStack.setItemMeta(newGuildMeta);
-            this.register(31, newGuildStack, String.format("rc guild:create %s %s", GuildUtility.getTemporaryName(), player.getName()));
+            this.addListener(31, newGuildStack, String.format("rc guild:create %s %s", GuildUtility.getTemporaryName(), player.getName()));
 
             ItemStack closeStack = new ItemStack(Material.COMPASS);
             ItemMeta closeMeta = closeStack.getItemMeta();
             closeMeta.displayName(Component.text("探索").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
             closeMeta.lore(Collections.singletonList(Component.text("または…オープンギルドを探してみましょう").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             closeStack.setItemMeta(closeMeta);
-            this.register(49, closeStack, "rc ui:guilds " + player.getName());
+            this.addListener(49, closeStack, "rc ui:guilds " + player.getName());
             return;
         }
 
@@ -64,7 +62,7 @@ public class GuildUI extends GameMenuUI
                 .append(Component.text(guild.getExp() / 10).color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false)));
         meta30.lore(lore30);
 
-        meta30.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(guild.getMaster().getId())));
+        meta30.setOwningPlayer(Bukkit.getOfflinePlayer(guild.getMaster().getId()));
         stack30.setItemMeta(meta30);
         this.inventory.setItem(30, stack30);
 
@@ -75,10 +73,10 @@ public class GuildUI extends GameMenuUI
         ArrayList<Component> lore31 = new ArrayList<>();
         lore31.add(Component.text(online.size() + " 人のメンバーがオンラインです:").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         online.forEach(o -> lore31.add(Component.text("- ").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
-                .append(Bukkit.getPlayer(UUID.fromString(o.getId())).displayName())));
+                .append(Bukkit.getPlayer(o.getId()).displayName())));
         meta31.lore(lore31);
         stack31.setItemMeta(meta31);
-        this.register(31, stack31, String.format("rc ui:guild-member %s %s", player.getName(), guild.getId()));
+        this.addListener(31, stack31, String.format("rc ui:guild-member %s %s", player.getName(), guild.getId()));
 
         ItemStack stack32 = new ItemStack(Material.BARRIER);
         ItemMeta meta32 = stack32.getItemMeta();
@@ -87,14 +85,14 @@ public class GuildUI extends GameMenuUI
             meta32.displayName(Component.text("Guild を解散").color(NamedTextColor.DARK_RED).decoration(TextDecoration.ITALIC, false));
             meta32.lore(Collections.singletonList(Component.text("この操作は取り消せません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)));
             stack32.setItemMeta(meta32);
-            this.register(32, stack32, String.format("rc guild:close %s %s", guild.getId(), player.getName()));
+            this.addListener(32, stack32, String.format("rc guild:close %s %s", guild.getId(), player.getName()));
         }
         else
         {
             meta32.displayName(Component.text("Guild を脱退").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
             meta32.lore(Collections.singletonList(Component.text("この Guild から離れます…").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
             stack32.setItemMeta(meta32);
-            this.register(32, stack32, String.format("rc guild:quit %s", player.getName()));
+            this.addListener(32, stack32, String.format("rc guild:quit %s", player.getName()));
         }
 
         ItemStack stack39 = new ItemStack(Material.GOLD_INGOT);
@@ -115,6 +113,6 @@ public class GuildUI extends GameMenuUI
         meta40.displayName(Component.text("名前の編集").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         meta40.lore(Collections.singletonList(Component.text("Guild の名前を変更する").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         stack40.setItemMeta(meta40);
-        this.register(40, stack40, String.format("rc guild:rename %s %s", guild.getId(), player.getName()));
+        this.addListener(40, stack40, String.format("rc guild:rename %s %s", guild.getId(), player.getName()));
     }
 }

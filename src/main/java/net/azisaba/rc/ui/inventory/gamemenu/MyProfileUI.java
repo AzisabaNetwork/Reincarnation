@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -14,12 +14,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class ProfileUI extends GameMenuUI
+public class MyProfileUI extends GameMenuUI
 {
-
-    public ProfileUI(Player player)
+    public MyProfileUI(Player player)
     {
-        super(player, Component.text("プロフィール"));
+        super(player, Component.text("My Profile"));
 
         this.addSeparator();
         this.setFocusedTab(1);
@@ -31,7 +30,7 @@ public class ProfileUI extends GameMenuUI
         progressMeta.displayName(Component.text("進捗").color(NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         progressMeta.lore(Collections.singletonList(Component.text("Reincarnation での進捗…").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         progressStack.setItemMeta(progressMeta);
-        this.register(21, progressStack, "rc ui:progress " + player.getName());
+        this.addListener(21, progressStack, "rc ui:progress " + player.getName());
 
         ItemStack levelStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta levelMeta = (SkullMeta) levelStack.getItemMeta();
@@ -59,24 +58,27 @@ public class ProfileUI extends GameMenuUI
         youtubeMeta.displayName(Component.text("YouTube").color(TextColor.color(255, 0, 0)).decoration(TextDecoration.ITALIC, false));
         youtubeMeta.lore(Arrays.asList(Component.text("YouTube アカウントをプロフィールと紐づけます").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
                 Component.text(String.format("現在の設定: @%s", (user.getYoutube() == null) ? "未設定" : user.getYoutube())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
+        youtubeMeta.setCustomModelData(5);
         youtubeStack.setItemMeta(youtubeMeta);
-        this.register(30, youtubeStack, "rc social:youtube " + player.getName());
+        this.addListener(30, youtubeStack, "rc social:youtube " + player.getName());
 
         ItemStack twitterStack = new ItemStack(Material.STICK);
         ItemMeta twitterMeta = twitterStack.getItemMeta();
         twitterMeta.displayName(Component.text("Twitter").color(TextColor.color(29, 161, 242)).decoration(TextDecoration.ITALIC, false));
         twitterMeta.lore(Arrays.asList(Component.text("Twitter アカウントをプロフィールと紐づけます").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
                 Component.text(String.format("現在の設定: @%s", (user.getTwitter() == null) ? "未設定" : user.getTwitter())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
+        twitterMeta.setCustomModelData(6);
         twitterStack.setItemMeta(twitterMeta);
-        this.register(31, twitterStack, "rc social:twitter " + player.getName());
+        this.addListener(31, twitterStack, "rc social:twitter " + player.getName());
 
         ItemStack discordStack = new ItemStack(Material.STICK);
         ItemMeta discordMeta = discordStack.getItemMeta();
         discordMeta.displayName(Component.text("Discord").color(TextColor.color(88, 101, 242)).decoration(TextDecoration.ITALIC, false));
         discordMeta.lore(Arrays.asList(Component.text("Discord アカウントをプロフィールと紐づけます").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
                 Component.text(String.format("現在の設定: %s", (user.getDiscord() == null) ? "未設定" : user.getYoutube())).color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
+        discordMeta.setCustomModelData(7);
         discordStack.setItemMeta(discordMeta);
-        this.register(32, discordStack, "rc social:discord " + player.getName());
+        this.addListener(32, discordStack, "rc social:discord " + player.getName());
 
         ItemStack temporaryStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta temporaryMeta = temporaryStack.getItemMeta();

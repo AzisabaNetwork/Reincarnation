@@ -9,7 +9,6 @@ import java.util.logging.Level;
 
 public class ScenarioUtility
 {
-
     public static void mount()
     {
         File[] scenarios = new File(Reincarnation.getPlugin().getDataFolder(), "/scenarios").listFiles();

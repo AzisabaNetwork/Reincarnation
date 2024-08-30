@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.ui.inventory.PlayerSelectorUI;
 import net.azisaba.rc.user.User;
@@ -15,7 +15,6 @@ import java.util.Collections;
 
 public class FriendRequestUI extends PlayerSelectorUI
 {
-
     public FriendRequestUI(Player player)
     {
         super(player, Component.text("探索…"));
@@ -42,6 +41,6 @@ public class FriendRequestUI extends PlayerSelectorUI
     public ArrayList<OfflinePlayer> getPlayers()
     {
         User user = User.getInstance(this.player);
-        return new ArrayList<>(super.getPlayers().stream().filter(p -> (! user.isFriend(User.getInstance(p.getUniqueId().toString()))) && user != User.getInstance(p.getUniqueId().toString())).toList());
+        return new ArrayList<>(super.getPlayers().stream().filter(p -> (! user.isFriend(User.getInstance(p.getUniqueId()))) && user != User.getInstance(p.getUniqueId())).toList());
     }
 }

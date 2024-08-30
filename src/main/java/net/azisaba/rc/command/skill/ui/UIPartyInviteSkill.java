@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.ui.inventory.PartyInviteUI;
 import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
@@ -12,9 +12,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class UIPartyInviteSkill implements IRcCommandSkill
+public class UIPartyInviteSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

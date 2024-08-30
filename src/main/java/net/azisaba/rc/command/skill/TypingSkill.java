@@ -6,21 +6,21 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public abstract class AbstractTypingSkill implements IRcCommandSkill
+public abstract class TypingSkill implements ICommandSkill
 {
-    private static final ArrayList<AbstractTypingSkill> instances = new ArrayList<>();
+    private static final ArrayList<TypingSkill> instances = new ArrayList<>();
 
-    public static AbstractTypingSkill getInstance(Player player)
+    public static TypingSkill getInstance(Player player)
     {
-        ArrayList<AbstractTypingSkill> filteredInstances = new ArrayList<>(AbstractTypingSkill.instances.stream().filter(i -> i.player == player).toList());
+        ArrayList<TypingSkill> filteredInstances = new ArrayList<>(TypingSkill.instances.stream().filter(i -> i.player == player).toList());
         return filteredInstances.isEmpty() ? null : filteredInstances.get(0);
     }
 
     public Player player;
 
-    public AbstractTypingSkill()
+    public TypingSkill()
     {
-        AbstractTypingSkill.instances.add(this);
+        TypingSkill.instances.add(this);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package net.azisaba.rc.command.skill.party;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.quest.Party;
-import net.azisaba.rc.ui.inventory.menu.PartyUI;
+import net.azisaba.rc.ui.inventory.gamemenu.PartyUI;
 import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,9 +13,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class PartyCreateSkill implements IRcCommandSkill
+public class PartyCreateSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

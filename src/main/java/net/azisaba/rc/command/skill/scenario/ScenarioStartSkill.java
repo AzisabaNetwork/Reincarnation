@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.scenario;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.scenario.Scenario;
 import net.azisaba.rc.scenario.ScenarioEngine;
 import net.kyori.adventure.text.Component;
@@ -11,9 +11,8 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public class ScenarioStartSkill implements IRcCommandSkill
+public class ScenarioStartSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

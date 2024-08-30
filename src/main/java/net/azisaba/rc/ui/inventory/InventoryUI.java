@@ -9,35 +9,35 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public abstract class AbstractInventoryUI
+public abstract class InventoryUI
 {
-    protected static final HashMap<AbstractInventoryUI, Inventory> instances = new HashMap<>();
+    protected static final HashMap<InventoryUI, Inventory> instances = new HashMap<>();
 
-    public static HashMap<AbstractInventoryUI, Inventory> getInstances()
+    public static HashMap<InventoryUI, Inventory> getInstances()
     {
-        return AbstractInventoryUI.instances;
+        return InventoryUI.instances;
     }
 
     protected final Player player;
     protected final Inventory inventory;
     protected final HashMap<Integer, String> items = new HashMap<>();
 
-    public AbstractInventoryUI(Player player, Inventory inventory)
+    public InventoryUI(Player player, Inventory inventory)
     {
         this.player = player;
         this.inventory = inventory;
 
         this.player.openInventory(this.inventory);
-        AbstractInventoryUI.instances.put(this, inventory);
+        InventoryUI.instances.put(this, inventory);
     }
 
-    public void register(int index, ItemStack item, String command)
+    public void addListener(int index, ItemStack item, String command)
     {
         this.items.put(index, command);
         this.inventory.setItem(index,item);
     }
 
-    public void onInventoryClick(InventoryClickEvent event)
+    public void onClick(InventoryClickEvent event)
     {
         if (event.getCurrentItem() != null && this.items.containsKey(event.getSlot()))
         {
@@ -45,8 +45,8 @@ public abstract class AbstractInventoryUI
         }
     }
 
-    public void onInventoryClose(InventoryCloseEvent event)
+    public void onClose(InventoryCloseEvent event)
     {
-        AbstractInventoryUI.instances.remove(this);
+        InventoryUI.instances.remove(this);
     }
 }

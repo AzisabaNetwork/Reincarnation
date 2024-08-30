@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
@@ -15,19 +15,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-public class FriendUI extends AbstractPlayerMenuUI
+public class FriendUI extends PlayerMenuUI
 {
-
     public FriendUI(Player player)
     {
-        super(player, Component.text("フレンド"));
+        super(player, Component.text("Friends"));
 
         ItemStack requestStack = new ItemStack(Material.COMPASS);
         ItemMeta requestMeta = requestStack.getItemMeta();
         requestMeta.displayName(Component.text("探索").color(NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         requestMeta.lore(Collections.singletonList(Component.text("新しい Friend を探してみましょう").color(NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
         requestStack.setItemMeta(requestMeta);
-        this.register(49, requestStack, String.format("rc ui:friend-request %s", player.getName()));
+        this.addListener(49, requestStack, String.format("rc ui:friend-request %s", player.getName()));
 
         this.addSeparator();
         this.setFocusedTab(2);
@@ -67,7 +66,7 @@ public class FriendUI extends AbstractPlayerMenuUI
     {
         final ArrayList<OfflinePlayer> friends = new ArrayList<>();
         final User user = User.getInstance(this.player);
-        user.getFriends().forEach(f -> friends.add(Bukkit.getOfflinePlayer(UUID.fromString(f.getId()))));
+        user.getFriends().forEach(f -> friends.add(Bukkit.getOfflinePlayer(UUID.fromString(f.getId().toString()))));
         return friends;
     }
 }

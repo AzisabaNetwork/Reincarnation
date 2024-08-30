@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.guild;
 
-import net.azisaba.rc.command.skill.AbstractPowerSkill;
+import net.azisaba.rc.command.skill.PowerSkill;
 import net.azisaba.rc.guild.Guild;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,8 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class GuildCloseSkill extends AbstractPowerSkill
+public class GuildCloseSkill extends PowerSkill
 {
     private Guild guild;
 
@@ -30,7 +31,7 @@ public class GuildCloseSkill extends AbstractPowerSkill
             return;
         }
 
-        if (Guild.getInstance(args[0]) == null)
+        if (Guild.getInstance(UUID.fromString(args[0])) == null)
         {
             sender.sendMessage(Component.text(args[0] + " is an unknown guild.").color(NamedTextColor.RED));
             return;
@@ -42,7 +43,7 @@ public class GuildCloseSkill extends AbstractPowerSkill
             return;
         }
 
-        this.guild = Guild.getInstance(args[0]);
+        this.guild = Guild.getInstance(UUID.fromString(args[0]));
         this.player = Bukkit.getPlayer(args[1]);
         this.player.closeInventory();
         super.onCommand(sender, command, label, args);
@@ -76,7 +77,7 @@ public class GuildCloseSkill extends AbstractPowerSkill
 
         if (args.length == 1)
         {
-            Guild.getInstances().forEach(g -> suggest.add(g.getId()));
+            Guild.getInstances().forEach(g -> suggest.add(g.getId().toString()));
         }
 
         if (args.length == 2)

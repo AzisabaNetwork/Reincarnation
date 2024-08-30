@@ -5,5 +5,5 @@ public enum QuestType
     DAILY,
     EVENT,
     FREE,
-    STORY,
+    STORY;
 }

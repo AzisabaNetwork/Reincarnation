@@ -11,17 +11,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.UUID;
 
 public class UserUtility
 {
-
-    public static boolean exists(String id)
+    public static boolean exists(UUID id)
     {
         try
         {
             final Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             final PreparedStatement stmt = con.prepareStatement("SELECT name FROM user WHERE id = ?");
-            stmt.setString(1, id);
+            stmt.setString(1, id.toString());
             ResultSet rs = stmt.executeQuery();
 
             final boolean exits = rs.next();

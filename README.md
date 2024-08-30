@@ -7,12 +7,10 @@ Reincarnation Core System
 ### About this plugin:
 
 ```yaml
-Version: 0.6.0
+Version: 0.6.1
 Minecraft: 1.17.1
 Database: MariaDB 11.4.2
 ```
-
-<a id="あ"></a>
 
 ### This plugin uses the following tables:
 

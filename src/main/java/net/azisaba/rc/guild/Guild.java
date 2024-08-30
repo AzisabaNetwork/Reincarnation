@@ -9,12 +9,13 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Guild
 {
     private static final ArrayList<Guild> instances = new ArrayList<>();
 
-    public static Guild getInstance(String id)
+    public static Guild getInstance(UUID id)
     {
         ArrayList<Guild> filteredInstances = new ArrayList<>(Guild.instances.stream().filter(i -> i.getId().equals(id)).toList());
         return filteredInstances.isEmpty() ? GuildUtility.exists(id) ? new Guild(id) : null : filteredInstances.get(0);
@@ -25,7 +26,7 @@ public class Guild
         return Guild.instances;
     }
 
-    private final String id;
+    private final UUID id;
 
     private String name;
     private int exp;
@@ -34,7 +35,7 @@ public class Guild
     private User master;
     private ArrayList<User> members = new ArrayList<>();
 
-    public Guild(String id)
+    public Guild(UUID id)
     {
         this.id = id;
 
@@ -42,7 +43,7 @@ public class Guild
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM guild WHERE id = ?");
-            stmt.setString(1, this.id);
+            stmt.setString(1, this.id.toString());
             ResultSet rs = stmt.executeQuery();
 
             rs.next();
@@ -56,7 +57,7 @@ public class Guild
             stmt.close();
 
             PreparedStatement stmt2 = con.prepareStatement("SELECT id FROM user WHERE guild = ?");
-            stmt2.setString(1, this.id);
+            stmt2.setString(1, this.id.toString());
             ResultSet rs2 = stmt2.executeQuery();
 
             while (rs2.next())
@@ -80,7 +81,7 @@ public class Guild
 
     public Guild(String name, User master)
     {
-        this.id = GuildUtility.getId();
+        this.id = UUID.randomUUID();
         this.name = name;
         this.master = master;
         this.exp = 0;
@@ -89,9 +90,9 @@ public class Guild
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("INSERT INTO guild VALUES(?, ?, ?, ?, 0)");
-            stmt.setString(1, this.id);
+            stmt.setString(1, this.id.toString());
             stmt.setString(2, this.name);
-            stmt.setString(3, this.master.getId());
+            stmt.setString(3, this.master.getId().toString());
             stmt.setInt(4, this.exp);
 
             stmt.executeUpdate();
@@ -109,7 +110,7 @@ public class Guild
         this.master.setGuild(this);
     }
 
-    public String getId()
+    public UUID getId()
     {
         return this.id;
     }
@@ -184,7 +185,7 @@ public class Guild
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("DELETE FROM guild WHERE id = ?");
-            stmt.setString(1, this.id);
+            stmt.setString(1, this.id.toString());
             stmt.executeUpdate();
 
             stmt.close();
@@ -223,10 +224,10 @@ public class Guild
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("UPDATE guild SET name = ?, master = ?, exp = ?, money = ? WHERE id = ?");
             stmt.setString(1, this.name);
-            stmt.setString(2, this.master.getId());
+            stmt.setString(2, this.master.getId().toString());
             stmt.setInt(3, this.exp);
             stmt.setInt(4, this.money);
-            stmt.setString(5, this.id);
+            stmt.setString(5, this.id.toString());
 
             stmt.executeUpdate();
 

@@ -1,8 +1,8 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.guild.Guild;
-import net.azisaba.rc.ui.inventory.menu.GuildMemberUI;
+import net.azisaba.rc.ui.inventory.gamemenu.GuildMemberUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -11,10 +11,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class UIGuildMemberSkill implements IRcCommandSkill
+public class UIGuildMemberSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {
@@ -43,7 +43,7 @@ public class UIGuildMemberSkill implements IRcCommandSkill
         }
 
         Player player = Bukkit.getPlayer(args[0]);
-        new GuildMemberUI(player, Guild.getInstance(args[1]));
+        new GuildMemberUI(player, Guild.getInstance(UUID.fromString(args[1])));
     }
 
     @Override
@@ -58,7 +58,7 @@ public class UIGuildMemberSkill implements IRcCommandSkill
 
         if (args.length == 2)
         {
-            Guild.getInstances().forEach(i -> list.add(i.getId()));
+            Guild.getInstances().forEach(i -> list.add(i.getId().toString()));
         }
 
         return list;

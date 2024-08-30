@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.social;
 
-import net.azisaba.rc.command.skill.AbstractTypingSkill;
+import net.azisaba.rc.command.skill.TypingSkill;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public abstract class AbstractSocialLinkSkill extends AbstractTypingSkill
+public abstract class SocialLinkSkill extends TypingSkill
 {
     protected User user;
 

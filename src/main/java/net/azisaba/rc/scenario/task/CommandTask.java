@@ -13,7 +13,6 @@ public class CommandTask extends ScenarioTask
         return Pattern.compile("\\$Command");
     }
 
-
     private final String command;
 
     public CommandTask(String name, Scenario scenario)

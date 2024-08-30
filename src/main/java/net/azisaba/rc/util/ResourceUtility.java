@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class ResourceUtility
 {
-
     public static File getResource(String name)
     {
         return new File(Reincarnation.getPlugin().getDataFolder(), name);

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.quest;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.quest.Quest;
 import net.azisaba.rc.quest.QuestEngine;
@@ -14,9 +14,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class QuestProgressionSkill implements IRcCommandSkill
+public class QuestProgressionSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

@@ -1,10 +1,9 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.ui.inventory.menu.PartyUI;
+import net.azisaba.rc.ui.inventory.gamemenu.PartyUI;
 
-public class UIPartySkill extends AbstractUIOpenSkill
+public class UIPartySkill extends UISkill
 {
-
     public UIPartySkill()
     {
         super(PartyUI.class);

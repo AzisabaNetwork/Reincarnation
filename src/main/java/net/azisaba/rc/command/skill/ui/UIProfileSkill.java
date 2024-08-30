@@ -1,19 +1,18 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
-import net.azisaba.rc.ui.inventory.menu.ProfileUI;
+import net.azisaba.rc.command.skill.ICommandSkill;
+import net.azisaba.rc.ui.inventory.ProfileUI;
+import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class UIProfileSkill implements IRcCommandSkill
+public class UIProfileSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {
@@ -29,9 +28,9 @@ public class UIProfileSkill implements IRcCommandSkill
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        if (args.length != 1)
+        if (args.length != 2)
         {
-            sender.sendMessage(Component.text("Correct syntax: /rc ui:profile <player>").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text(String.format("Correct syntax: /rc %s <player> <view>", this.getName())).color(NamedTextColor.RED));
             return;
         }
 
@@ -41,8 +40,7 @@ public class UIProfileSkill implements IRcCommandSkill
             return;
         }
 
-        Player player = Bukkit.getPlayer(args[0]);
-        new ProfileUI(player);
+        new ProfileUI(Bukkit.getPlayer(args[0]), User.getInstance(args[1]));
     }
 
     @Override

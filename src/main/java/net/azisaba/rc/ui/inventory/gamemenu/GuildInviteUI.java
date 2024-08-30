@@ -1,4 +1,4 @@
-package net.azisaba.rc.ui.inventory.menu;
+package net.azisaba.rc.ui.inventory.gamemenu;
 
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.inventory.PlayerSelectorUI;
@@ -27,7 +27,7 @@ public class GuildInviteUI extends PlayerSelectorUI
         ItemMeta closeMeta = closeStack.getItemMeta();
         closeMeta.displayName(Component.text("Guild ページへ").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         closeStack.setItemMeta(closeMeta);
-        this.register(49, closeStack, String.format("rc ui:guild %s", player.getName()));
+        this.addListener(49, closeStack, String.format("rc ui:guild %s", player.getName()));
 
         this.draw(this.p);
     }

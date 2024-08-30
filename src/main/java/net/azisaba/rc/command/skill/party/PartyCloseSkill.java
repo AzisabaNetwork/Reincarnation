@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.party;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,9 +10,8 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public class PartyCloseSkill implements IRcCommandSkill
+public class PartyCloseSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

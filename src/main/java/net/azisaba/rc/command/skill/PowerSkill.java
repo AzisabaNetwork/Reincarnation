@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class AbstractPowerSkill extends AbstractTypingSkill
+public abstract class PowerSkill extends TypingSkill
 {
     protected String confirmCode;
     protected int length = 6;

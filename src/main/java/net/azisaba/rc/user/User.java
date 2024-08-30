@@ -17,7 +17,7 @@ public class User
 {
     private static final ArrayList<User> instances = new ArrayList<>();
 
-    public static User getInstance(String id)
+    public static User getInstance(UUID id)
     {
         ArrayList<User> filteredInstances = new ArrayList<>(User.instances.stream().filter(i -> i.getId().equals(id)).toList());
         return filteredInstances.isEmpty() ? UserUtility.exists(id) ? new User(id) : new User(id, null, UserRank.DEFAULT, null, 0, 0) : filteredInstances.get(0);
@@ -25,7 +25,13 @@ public class User
 
     public static User getInstance(Player player)
     {
-        return User.getInstance(player.getUniqueId().toString());
+        return (player == null) ? null : User.getInstance(player.getUniqueId());
+    }
+
+    @Deprecated
+    public static User getInstance(String name)
+    {
+        return User.getInstance(Bukkit.getPlayer(name));
     }
 
     public static ArrayList<User> getInstances()
@@ -33,7 +39,7 @@ public class User
         return User.instances;
     }
 
-    private final String id;
+    private final UUID id;
 
     private String name;
     private UserRank rank;
@@ -51,16 +57,16 @@ public class User
 
     public boolean friendLoadedFlag = false;
 
-    private User(String id)
+    private User(UUID id)
     {
         this.id = id;
-        this.player = Bukkit.getOfflinePlayer(UUID.fromString(id));
+        this.player = Bukkit.getOfflinePlayer(id);
 
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM user WHERE id = ?");
-            stmt.setString(1, this.id);
+            stmt.setString(1, this.id.toString());
             ResultSet rs = stmt.executeQuery();
 
             rs.next();
@@ -77,7 +83,7 @@ public class User
             stmt.close();
 
             PreparedStatement stmt2 = con.prepareStatement("SELECT id FROM quest WHERE user = ?");
-            stmt2.setString(1, this.id);
+            stmt2.setString(1, this.id.toString());
             ResultSet rs2  = stmt2.executeQuery();
 
             while (rs2.next())
@@ -98,7 +104,7 @@ public class User
         User.instances.add(this);
     }
 
-    private User(String id, String name, UserRank rank, Guild guild, int exp, int money)
+    private User(UUID id, String name, UserRank rank, Guild guild, int exp, int money)
     {
         this.id = id;
         this.name = name;
@@ -107,16 +113,16 @@ public class User
         this.exp = exp;
         this.money = money;
 
-        this.player = Bukkit.getOfflinePlayer(UUID.fromString(id));
+        this.player = Bukkit.getOfflinePlayer(id);
 
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, this.id);
+            stmt.setString(1, this.id.toString());
             stmt.setString(2, this.name);
             stmt.setString(3, this.rank.toString());
-            stmt.setString(4, (this.guild == null) ? null : this.guild.getId());
+            stmt.setString(4, (this.guild == null) ? null : this.guild.getId().toString());
             stmt.setInt(5, this.exp);
             stmt.setInt(6, this.money);
             stmt.setString(7, this.youtube);
@@ -135,7 +141,7 @@ public class User
         User.instances.add(this);
     }
 
-    public String getId()
+    public UUID getId()
     {
         return this.id;
     }
@@ -298,22 +304,22 @@ public class User
 
     public boolean isOnline()
     {
-        return Bukkit.getPlayer(UUID.fromString(this.id)) != null;
+        return Bukkit.getPlayer(this.id) != null;
     }
 
     public Player getAsPlayer()
     {
-        return Bukkit.getPlayer(UUID.fromString(this.id));
+        return Bukkit.getPlayer(this.id);
     }
 
     public OfflinePlayer getAsOfflinePlayer()
     {
-        return Bukkit.getOfflinePlayer(UUID.fromString(this.id));
+        return Bukkit.getOfflinePlayer(this.id);
     }
 
     public void sendMessage(Component msg)
     {
-        Player player = Bukkit.getPlayer(UUID.fromString(this.id));
+        Player player = Bukkit.getPlayer(this.id);
 
         if (player != null)
         {
@@ -329,20 +335,20 @@ public class User
             PreparedStatement stmt = con.prepareStatement("UPDATE user SET name = ?, role = ?, guild = ?, exp = ?, money = ?, youtube = ?, twitter = ?, discord = ? WHERE id = ?");
             stmt.setString(1, this.name);
             stmt.setString(2, this.rank.toString());
-            stmt.setString(3, (this.guild == null) ? null : this.guild.getId());
+            stmt.setString(3, (this.guild == null) ? null : this.guild.getId().toString());
             stmt.setInt(4, this.exp);
             stmt.setInt(5, this.money);
             stmt.setString(6, this.youtube);
             stmt.setString(7, this.twitter);
             stmt.setString(8, this.discord);
-            stmt.setString(9, this.id);
+            stmt.setString(9, this.id.toString());
 
             stmt.executeUpdate();
 
             stmt.close();
 
             PreparedStatement stmt2 = con.prepareStatement("DELETE FROM quest WHERE user = ?");
-            stmt2.setString(1, this.id);
+            stmt2.setString(1, this.id.toString());
             stmt2.executeUpdate();
             stmt2.close();
 
@@ -351,15 +357,15 @@ public class User
             for (QuestEngine quest : this.quests)
             {
                 stmt3.setString(1, quest.getId());
-                stmt3.setString(2, this.id);
+                stmt3.setString(2, this.id.toString());
                 stmt3.executeUpdate();
             }
 
             if (this.friendLoadedFlag)
             {
                 PreparedStatement stmt4 = con.prepareStatement("DELETE FROM friend WHERE user1 = ? OR user2 = ?");
-                stmt4.setString(1, this.id);
-                stmt4.setString(2, this.id);
+                stmt4.setString(1, this.id.toString());
+                stmt4.setString(2, this.id.toString());
                 stmt4.executeUpdate();
                 stmt4.close();
 
@@ -367,8 +373,8 @@ public class User
 
                 for (User friend : this.friends)
                 {
-                    stmt5.setString(1, this.id);
-                    stmt5.setString(2, friend.getId());
+                    stmt5.setString(1, this.id.toString());
+                    stmt5.setString(2, friend.getId().toString());
                     stmt5.executeUpdate();
                 }
 

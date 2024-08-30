@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class QuestStoryMenuUI extends QuestMenuUI
 {
-
     public QuestStoryMenuUI(Player player)
     {
         super(player);

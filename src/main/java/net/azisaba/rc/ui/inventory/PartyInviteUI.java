@@ -27,7 +27,7 @@ public class PartyInviteUI extends PlayerSelectorUI
         ItemMeta closeMeta = closeStack.getItemMeta();
         closeMeta.displayName(Component.text("前のページに戻る").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         closeStack.setItemMeta(closeMeta);
-        this.register(49, closeStack, String.format("rc ui:party %s", player.getName()));
+        this.addListener(49, closeStack, String.format("rc ui:party %s", player.getName()));
 
         this.draw(this.p);
     }

@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.guild;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.guild.Guild;
 import net.azisaba.rc.ui.CLI;
 import net.azisaba.rc.user.User;
@@ -13,9 +13,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class GuildCreateSkill implements IRcCommandSkill
+public class GuildCreateSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {

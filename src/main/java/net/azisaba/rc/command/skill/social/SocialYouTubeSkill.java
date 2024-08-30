@@ -1,8 +1,7 @@
 package net.azisaba.rc.command.skill.social;
 
-public class SocialYouTubeSkill extends AbstractSocialLinkSkill
+public class SocialYouTubeSkill extends SocialLinkSkill
 {
-
     @Override
     public String getName()
     {

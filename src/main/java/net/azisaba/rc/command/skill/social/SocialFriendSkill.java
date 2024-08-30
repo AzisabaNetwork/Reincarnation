@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.social;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,9 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class SocialFriendSkill implements IRcCommandSkill
+public class SocialFriendSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {
@@ -42,10 +41,10 @@ public class SocialFriendSkill implements IRcCommandSkill
         }
 
         final Player player1 = Bukkit.getPlayer(args[0]);
-        final User user1 = User.getInstance(player1.getUniqueId().toString());
+        final User user1 = User.getInstance(player1.getUniqueId());
 
         final Player player2 = Bukkit.getPlayer(args[1]);
-        final User user2 = User.getInstance(player2.getUniqueId().toString());
+        final User user2 = User.getInstance(player2.getUniqueId());
 
         if ((sender instanceof Player player) && player != player2 && ! sender.isOp())
         {

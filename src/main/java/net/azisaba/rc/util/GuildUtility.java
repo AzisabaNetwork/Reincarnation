@@ -9,22 +9,6 @@ import java.util.UUID;
 
 public class GuildUtility
 {
-
-    public static String getId()
-    {
-        String id = null;
-        boolean loopFlag = true;
-
-        while (loopFlag)
-        {
-            id = UUID.randomUUID().toString();
-            String finalId = id;
-            loopFlag = ! Guild.getInstances().stream().filter(i -> i.getId().equals(finalId)).toList().isEmpty();
-        }
-
-        return id;
-    }
-
     public static String getTemporaryName()
     {
         boolean loopFlag = true;
@@ -43,7 +27,7 @@ public class GuildUtility
             }
 
             final StringBuilder finalSb = sb;
-            loopFlag = Guild.getInstances().stream().anyMatch(i -> i.getName().equals(finalSb.toString()));
+            loopFlag = Guild.getInstances().stream().anyMatch(i -> i.getName().contentEquals(finalSb));
         }
 
         return sb.toString();
@@ -59,7 +43,7 @@ public class GuildUtility
 
             while (rs.next())
             {
-                Guild.getInstance(rs.getString("id"));
+                Guild.getInstance(UUID.fromString(rs.getString("id")));
             }
 
             rs.close();
@@ -72,13 +56,13 @@ public class GuildUtility
         }
     }
 
-    public static boolean exists(String id)
+    public static boolean exists(UUID id)
     {
         try
         {
             Connection con = DriverManager.getConnection(Reincarnation.DB_URL, Reincarnation.DB_USER, Reincarnation.DB_PASS);
             PreparedStatement stmt = con.prepareStatement("SELECT id FROM guild WHERE id = ?");
-            stmt.setString(1, id);
+            stmt.setString(1, id.toString());
             stmt.executeUpdate();
             ResultSet rs = stmt.executeQuery();
 

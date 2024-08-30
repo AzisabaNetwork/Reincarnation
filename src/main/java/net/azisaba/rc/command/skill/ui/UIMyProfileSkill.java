@@ -1,7 +1,7 @@
 package net.azisaba.rc.command.skill.ui;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
-import net.azisaba.rc.ui.inventory.AbstractInventoryUI;
+import net.azisaba.rc.command.skill.ICommandSkill;
+import net.azisaba.rc.ui.inventory.gamemenu.MyProfileUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -9,16 +9,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public abstract class AbstractUIOpenSkill implements IRcCommandSkill
+public class UIMyProfileSkill implements ICommandSkill
 {
-    protected final Class<? extends AbstractInventoryUI> clazz;
-
-    public AbstractUIOpenSkill(Class<? extends AbstractInventoryUI> clazz)
+    @Override
+    public String getName()
     {
-        this.clazz = clazz;
+        return "ui:myprofile";
     }
 
     @Override
@@ -32,7 +30,7 @@ public abstract class AbstractUIOpenSkill implements IRcCommandSkill
     {
         if (args.length != 1)
         {
-            sender.sendMessage(Component.text(String.format("Correct syntax: /rc %s <player>", this.getName())).color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Correct syntax: /rc ui:profile <player>").color(NamedTextColor.RED));
             return;
         }
 
@@ -43,27 +41,19 @@ public abstract class AbstractUIOpenSkill implements IRcCommandSkill
         }
 
         Player player = Bukkit.getPlayer(args[0]);
-
-        try
-        {
-            this.clazz.getConstructor(Player.class).newInstance(player);
-        }
-        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
-        }
+        new MyProfileUI(player);
     }
 
     @Override
     public ArrayList<String> onTabComplete(CommandSender sender, Command command, String label, String[] args)
     {
-        ArrayList<String> suggest = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
 
         if (args.length == 1)
         {
-            Bukkit.getOnlinePlayers().forEach(p -> suggest.add(p.getName()));
+            Bukkit.getOnlinePlayers().forEach(p -> list.add(p.getName()));
         }
 
-        return suggest;
+        return list;
     }
 }

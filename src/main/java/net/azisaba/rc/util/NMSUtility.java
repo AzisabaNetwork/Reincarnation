@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 public class NMSUtility
 {
-
     public static CraftPlayer getCraftPlayer(Player player)
     {
         return (CraftPlayer) player;

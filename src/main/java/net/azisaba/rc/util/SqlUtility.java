@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SQLUtility
+public class SqlUtility
 {
-
     public static boolean test(String url, String user, String pass)
     {
         try

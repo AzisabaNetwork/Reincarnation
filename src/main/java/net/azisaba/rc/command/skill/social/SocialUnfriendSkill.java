@@ -1,7 +1,6 @@
 package net.azisaba.rc.command.skill.social;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
-import net.azisaba.rc.quest.QuestEngine;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.user.User;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,9 +12,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class SocialUnfriendSkill implements IRcCommandSkill
+public class SocialUnfriendSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {
@@ -48,7 +46,7 @@ public class SocialUnfriendSkill implements IRcCommandSkill
         User user = User.getInstance(player);
 
         OfflinePlayer friendPlayer = Bukkit.getServer().getOfflinePlayer(args[1]);
-        User friendUser = User.getInstance(friendPlayer.getUniqueId().toString());
+        User friendUser = User.getInstance(friendPlayer.getUniqueId());
 
         user.unfriend(friendUser);
         player.sendMessage(Component.text(friendPlayer.getName()).color(NamedTextColor.GRAY).append(Component.text(" を Friend から削除しました").color(NamedTextColor.YELLOW)));

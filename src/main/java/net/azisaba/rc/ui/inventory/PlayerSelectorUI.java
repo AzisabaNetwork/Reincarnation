@@ -15,10 +15,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 
-// Note: We are working on merging with AbstractPlayerMenuUI.
+// Note: We are working on merging with net.azisaba.rc.ui.menu.PlayerMenuUI.
 
 @Deprecated
-public abstract class PlayerSelectorUI extends AbstractInventoryUI
+public abstract class PlayerSelectorUI extends InventoryUI
 {
     protected int j1 = 0;
     protected int j2 = 36;
@@ -48,7 +48,7 @@ public abstract class PlayerSelectorUI extends AbstractInventoryUI
 
     public ItemStack getPlayerStack(OfflinePlayer player)
     {
-        User user = User.getInstance(player.getUniqueId().toString());
+        User user = User.getInstance(player.getUniqueId());
 
         ItemStack playerStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta playerMeta = (SkullMeta) playerStack.getItemMeta();
@@ -64,9 +64,9 @@ public abstract class PlayerSelectorUI extends AbstractInventoryUI
     }
 
     @Override
-    public void onInventoryClick(InventoryClickEvent event)
+    public void onClick(InventoryClickEvent event)
     {
-        super.onInventoryClick(event);
+        super.onClick(event);
 
         if (event.getSlot() == 45)
         {
@@ -103,7 +103,7 @@ public abstract class PlayerSelectorUI extends AbstractInventoryUI
             }
             else
             {
-                this.register(index, this.getPlayerStack(player), command);
+                this.addListener(index, this.getPlayerStack(player), command);
             }
 
             index ++;

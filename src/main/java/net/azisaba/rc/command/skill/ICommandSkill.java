@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
-public interface IRcCommandSkill
+public interface ICommandSkill
 {
     String getName();
 

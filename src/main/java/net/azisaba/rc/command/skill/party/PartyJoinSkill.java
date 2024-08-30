@@ -1,6 +1,6 @@
 package net.azisaba.rc.command.skill.party;
 
-import net.azisaba.rc.command.skill.IRcCommandSkill;
+import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.quest.Party;
 import net.azisaba.rc.util.PartyUtility;
 import net.kyori.adventure.text.Component;
@@ -12,9 +12,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class PartyJoinSkill implements IRcCommandSkill
+public class PartyJoinSkill implements ICommandSkill
 {
-
     @Override
     public String getName()
     {
