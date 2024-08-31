@@ -48,7 +48,7 @@ public class UserUtility
 
             while (rs.next())
             {
-                User.getInstance(rs.getString("id"));
+                User.getInstance(UUID.fromString(rs.getString("id")));
             }
 
             rs.close();
@@ -59,8 +59,8 @@ public class UserUtility
 
             while (rs2.next())
             {
-                final User user1 = User.getInstance(rs2.getString("user1"));
-                final User user2 = User.getInstance(rs2.getString("user2"));
+                final User user1 = User.getInstance(UUID.fromString(rs2.getString("user1")));
+                final User user2 = User.getInstance(UUID.fromString(rs2.getString("user2")));
 
                 user1.getFriends().add(user2);
                 user2.getFriends().add(user1);

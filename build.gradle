@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'net.azisaba.rc'
-version = '0.6.2'
+version = '0.6.4'
 
 repositories {
     mavenLocal()
@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
 }
 
-def targetJavaVersion = 16
+def targetJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

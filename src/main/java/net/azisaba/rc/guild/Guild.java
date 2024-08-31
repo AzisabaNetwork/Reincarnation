@@ -51,7 +51,7 @@ public class Guild
             this.name = rs.getString("name");
             this.exp = rs.getInt("exp");
             this.money = rs.getInt("money");
-            this.master = User.getInstance(rs.getString("master"));
+            this.master = User.getInstance(UUID.fromString(rs.getString("master")));
 
             rs.close();
             stmt.close();
@@ -62,7 +62,7 @@ public class Guild
 
             while (rs2.next())
             {
-                User user = User.getInstance(rs2.getString("id"));
+                User user = User.getInstance(UUID.fromString(rs2.getString("id")));
                 this.members.add(user);
             }
 

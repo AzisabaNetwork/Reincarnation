@@ -3,6 +3,7 @@ package net.azisaba.rc.command.skill.ui;
 import net.azisaba.rc.command.skill.ICommandSkill;
 import net.azisaba.rc.ui.inventory.ProfileUI;
 import net.azisaba.rc.user.User;
+import net.azisaba.rc.util.UuidUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class UIProfileSkill implements ICommandSkill
 {
@@ -40,7 +42,13 @@ public class UIProfileSkill implements ICommandSkill
             return;
         }
 
-        new ProfileUI(Bukkit.getPlayer(args[0]), User.getInstance(args[1]));
+        if (! UuidUtility.isUuid(args[1]))
+        {
+            sender.sendMessage(Component.text(String.format("第二引数にはUUIDを指定してください: %s", args[1])).color(NamedTextColor.RED));
+            return;
+        }
+
+        new ProfileUI(Bukkit.getPlayer(args[0]), User.getInstance(UUID.fromString(args[1])));
     }
 
     @Override

@@ -111,26 +111,22 @@ public class PlayerListener implements Listener
     {
         Player player = event.getPlayer();
 
-        if (player.getScoreboardTags().contains("rc.typing"))
+        if (! player.getScoreboardTags().contains("rc.typing"))
         {
-            TypingSkill skill = TypingSkill.getInstance(player);
-            String string = ((TextComponent) event.message()).content();
-            player.sendMessage(Component.text(string).color(NamedTextColor.GRAY));
-
-            if (skill != null)
-            {
-                skill.onTyped(string);
-                skill.player = null;
-            }
-
-            player.removeScoreboardTag("rc.typing");
-            event.setCancelled(true);
             return;
         }
 
-        User user = User.getInstance(player);
+        TypingSkill skill = TypingSkill.getInstance(player);
+        String string = ((TextComponent) event.message()).content();
+        player.sendMessage(Component.text(string).color(NamedTextColor.GRAY));
 
+        if (skill != null)
+        {
+            skill.onTyped(string);
+            skill.player = null;
+        }
+
+        player.removeScoreboardTag("rc.typing");
         event.setCancelled(true);
-        Bukkit.broadcast(user.getRankedName().append(Component.text(": ").color(NamedTextColor.WHITE)).append(event.message().color(NamedTextColor.WHITE)));
     }
 }
