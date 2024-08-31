@@ -7,7 +7,7 @@ Reincarnation Core System
 ### About this plugin:
 
 ```yaml
-Version: 0.6.1
+Version: 0.6.2
 Minecraft: 1.17.1
 Database: MariaDB 11.4.2
 ```

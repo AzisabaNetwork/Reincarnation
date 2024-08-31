@@ -3,7 +3,8 @@ version: '${version}'
 api-version: '1.17'
 description: Reincarnation's core system.
 main: net.azisaba.rc.Reincarnation
-
+depend:
+  - JunkGames
 commands:
   rc:
     description: Supports reincarnation processing.
